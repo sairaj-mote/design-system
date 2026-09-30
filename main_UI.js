@@ -185,7 +185,7 @@ window.addEventListener('popstate', e => {
 // displays a popup for asking permission. Use this instead of JS confirm
 /**
 @param {string} title - Title of the popup
-@param {object} options - Options for the popup 
+@param {object} options - Options for the popup
 @param {string} options.message - Message to be displayed in the popup
 @param {string} options.cancelText - Text for the cancel button
 @param {string} options.confirmText - Text for the confirm button
@@ -204,21 +204,24 @@ const getConfirmation = (title, options = {}) => {
             confirmButton.classList.add('button--danger')
         else
             confirmButton.classList.remove('button--danger')
-        const { opened, closed } = openPopup('confirmation_popup')
-        confirmButton.onclick = () => {
-            closePopup({ payload: true })
-        }
-        cancelButton.onclick = () => {
-            closePopup()
-        }
-        closed.then((payload) => {
+        const popup = getRef('confirmation_popup')
+        let result = false
+        let settled = false
+        const settle = value => {
+            if (settled)
+                return
+            settled = true
             confirmButton.onclick = null
             cancelButton.onclick = null
-            if (payload)
-                resolve(true)
-            else
-                resolve(false)
-        })
+            resolve(value)
+        }
+        popup.addEventListener('popupclosed', () => settle(result), { once: true })
+        confirmButton.onclick = () => {
+            result = true
+            closePopup()
+        }
+        cancelButton.onclick = () => closePopup()
+        openPopup('confirmation_popup')
     })
 }
 // displays a popup for asking user input. Use this instead of JS prompt
@@ -238,24 +241,32 @@ function getPromptInput(title, message = '', options = {}) {
     getRef('prompt_message').innerText = message;
     const cancelButton = getRef('prompt_popup').querySelector('.cancel-button');
     const confirmButton = getRef('prompt_popup').querySelector('.confirm-button')
-    if (isPassword) {
-        placeholder = 'Password'
-        getRef('prompt_input').setAttribute("type", "password")
-    }
-    getRef('prompt_input').setAttribute("placeholder", placeholder)
-    getRef('prompt_input').focusIn()
+    const popup = getRef('prompt_popup')
+    const input = getRef('prompt_input')
+    input.setAttribute("type", isPassword ? "password" : "text")
+    input.setAttribute("placeholder", placeholder)
+    input.value = ''
     cancelButton.textContent = cancelText;
     confirmButton.textContent = confirmText;
     openPopup('prompt_popup', true)
-    return new Promise((resolve, reject) => {
-        cancelButton.addEventListener('click', () => {
+    return new Promise(resolve => {
+        let result = null
+        let settled = false
+        const settle = value => {
+            if (settled)
+                return
+            settled = true
+            confirmButton.onclick = null
+            cancelButton.onclick = null
+            resolve(value)
+        }
+        popup.addEventListener('popupclosed', () => settle(result), { once: true })
+        cancelButton.onclick = () => closePopup()
+        confirmButton.onclick = () => {
+            result = input.value
             closePopup()
-            return null
-        }, { once: true })
-        confirmButton.addEventListener('click', () => {
-            closePopup()
-            resolve(getRef('prompt_input').value)
-        }, { once: true })
+        }
+        setTimeout(() => input.focusIn(), 0)
     })
 }
 
@@ -852,12 +863,12 @@ function $signal(initialValue, callback) {
     return [getter, setter];
 }
 /**
- * 
+ *
  * @param {function} fn - function that will run if any of its dependent signals change
  * @example
  * $effect(() => {
  * console.log(count());
- * } 
+ * }
  * @returns {void}
  */
 async function $effect(fn) {

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RanchiMall Design System</title>
+    <meta name="description"
+        content="RanchiMall Design System — a token-driven, frameworkless design system built from scratch: foundations, components, patterns, accessibility and guidelines.">
+    <link rel="stylesheet" href="tokens/tokens.css?v=a42c251b1146">
+    <link rel="stylesheet" href="css/main.css?v=01e66f24d581">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body data-theme="light">
+    <a href="#overview_page" class="skip-link">Skip to content</a>
+    <sm-notifications id="notification_drawer"></sm-notifications>
+    <sm-popup id="confirmation_popup">
+        <h4 id="confirm_title">Confirmation</h4>
+        <p id="confirm_message"></p>
+        <div class="flex align-center gap-1">
+            <sm-button class="cancel-button" variant="no-outline">Cancel</sm-button>
+            <sm-button class="confirm-button" variant="no-outline">OK</sm-button>
+        </div>
+    </sm-popup>
+    <sm-popup id="prompt_popup">
+        <h4 id="prompt_title">Input required</h4>
+        <p id="prompt_message"></p>
+        <sm-input id="prompt_input"></sm-input>
+        <div class="flex align-center gap-1">
+            <sm-button class="cancel-button" variant="no-outline">Cancel</sm-button>
+            <sm-button class="confirm-button" variant="no-outline" type="submit">OK</sm-button>
+        </div>
+    </sm-popup>
+
+    <main>
+        <header id="main_header" class="flex align-center space-between">
+            <button id="side_nav_button" class="interact" onclick="getRef('side_nav').open()"
+                aria-label="Open navigation menu">
+                <span class="material-icons" aria-hidden="true">menu</span>
+            </button>
+            <div class="brand">
+                <span class="brand__mark" aria-hidden="true">R</span>
+                <span class="brand__name">
+                    RanchiMall Design System
+                    <small>v1.0.0</small>
+                </span>
+            </div>
+            <theme-toggle></theme-toggle>
+        </header>
+
+        <hamburger-menu id="side_nav" aria-label="Documentation navigation">
+            <div id="ds-nav"></div>
+        </hamburger-menu>
+
+        <article class="right">
+            <!-- ===================== OVERVIEW ===================== -->
+            <section id="overview_page" class="page">
+                <div class="hero">
+                    <div>
+                        <span class="version-badge">
+                            <span class="material-icons" aria-hidden="true" style="font-size:14px">verified</span>
+                            v1.0.0 · Built from scratch
+                        </span>
+                    </div>
+                    <h1>A design system for building web products that scale.</h1>
+                    <p class="lede">
+                        RanchiMall Design System is the token-driven, frameworkless UI system we created from the
+                        ground up. This site documents the foundations, components, patterns and guidelines that make
+                        it up — and the process we followed to design it.
+                    </p>
+                    <div class="stat-grid">
+                        <div class="stat"><span class="stat__value" id="stat-components">–</span><span
+                                class="stat__label">Native components</span></div>
+                        <div class="stat"><span class="stat__value" id="stat-tokens">–</span><span
+                                class="stat__label">Design tokens</span></div>
+                        <div class="stat"><span class="stat__value" id="stat-layouts">–</span><span
+                                class="stat__label">Page layouts</span></div>
+                        <div class="stat"><span class="stat__value" id="stat-contrast">–</span><span
+                                class="stat__label">Contrast target</span></div>
+                    </div>
+                </div>
+
+                <h2>The problem</h2>
+                <p>
+                    Every product we shipped was rebuilding the same UI by hand — new buttons, new inputs, new colors,
+                    slightly different on every screen. The result was inconsistent, slow to build, and painful to
+                    maintain. We needed a shared language between design and engineering, with no framework lock-in.
+                </p>
+
+                <h2>The approach</h2>
+                <p>
+                    Instead of buying a toolkit, we designed our own. We started by auditing real screens, then
+                    extracted the primitives — colors, type, spacing, motion — into design tokens. On top of those
+                    tokens we built native Web Components, then composed them into patterns, and finally documented
+                    everything you see on this site. Nothing is hard-coded; every value traces back to a token.
+                </p>
+
+                <h2>The outcome</h2>
+                <div class="grid gap-2">
+                    <div class="card">
+                        <h3>Consistency at scale</h3>
+                        <p>Change one token and the change ripples through every component and screen. A single source
+                            of truth for the whole product.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Faster shipping</h3>
+                        <p>Designers assemble from components instead of drawing from scratch. Developers wire up
+                            ready-made, tested components.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Frameworkless freedom</h3>
+                        <p>Native Web Components run in any stack — React, Vue, vanilla or none — with encapsulated
+                            style and behaviour.</p>
+                    </div>
+                </div>
+
+                <footer>
+                    <strong>Continue:</strong> read the <a href="#principles_page">design principles</a>, explore the
+                    <a href="#color_page">foundations</a>, or jump into the <a href="#components_page">component
+                        library</a>.
+                </footer>
+            </section>
+
+            <!-- ===================== PRINCIPLES ===================== -->
+            <section id="principles_page" class="page hide-completely">
+                <h1 class="page__title">Design principles</h1>
+                <p>
+                    These six principles guided every decision in the system — from the first token to the last
+                    component. If a decision didn't serve a principle, we went back and rethought it.
+                </p>
+                <div id="ds-principles" class="principle-grid" style="margin-top:1.5rem;"></div>
+            </section>
+
+            <!-- ===================== PROCESS ===================== -->
+            <section id="process_page" class="page hide-completely">
+                <h1 class="page__title">How it was designed from scratch</h1>
+                <p>
+                    Building a design system isn't about designing components — it's about designing a <em>process</em>
+                    for making consistent decisions. Here is the six-phase process we followed, in the order we
+                    followed it.
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline__item">
+                        <span class="tl-tag">Phase 1 · Discover</span>
+                        <h2>Audit the product</h2>
+                        <p>We catalogued every screen, interaction and stray style across our apps. We photographed
+                            inconsistencies, counted the duplicates, and collected the raw material the system would
+                            have to absorb.</p>
+                    </div>
+                    <div class="timeline__item">
+                        <span class="tl-tag">Phase 2 · Extract</span>
+                        <h2>Tokenize the primitives</h2>
+                        <p>From the audit we pulled the true primitives — the handful of colors, type sizes, spacing
+                            values and radii that everything else was a variation of. These became our first design
+                            tokens.</p>
+                    </div>
+                    <div class="timeline__item">
+                        <span class="tl-tag">Phase 3 · Found</span>
+                        <h2>Build the foundations</h2>
+                        <p>We turned raw values into scales with names and roles: a color ramp with a base step, a type
+                            ramp with clear hierarchy, a 4px spacing scale, radii, elevations and motion durations.</p>
+                    </div>
+                    <div class="timeline__item">
+                        <span class="tl-tag">Phase 4 · Compose</span>
+                        <h2>Componentize</h2>
+                        <p>With foundations in place we built native Web Components — buttons, inputs, popups,
+                            notifications — each consuming tokens and each self-contained, style and behaviour
+                            included.</p>
+                    </div>
+                    <div class="timeline__item">
+                        <span class="tl-tag">Phase 5 · Assemble</span>
+                        <h2>Compose patterns</h2>
+                        <p>Components alone don't make a product. We composed them into repeatable patterns — forms,
+                            navigation, feedback, empty states — the building blocks of real screens.</p>
+                    </div>
+                    <div class="timeline__item">
+                        <span class="tl-tag">Phase 6 · Govern</span>
+                        <h2>Document &amp; govern</h2>
+                        <p>Finally we documented everything: the tokens, the components, the dos and don'ts, and the
+                            accessibility rules you're reading now. Governance keeps the system honest as products grow.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>The key insight</h2>
+                    <p>
+                        The hardest part wasn't creating the system — it was <em>stopping</em> at the right level of
+                        abstraction. Too granular and tokens become noise; too coarse and they stop being useful. Every
+                        token and component on this site earns its place by being used in more than one product.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================== COLOR ===================== -->
+            <section id="color_page" class="page hide-completely">
+                <h1 class="page__title">Color</h1>
+                <p>
+                    Color starts with two brand ramps — a teal primary and an amber secondary — plus a neutral ramp for
+                    surfaces and text. Every color in the product is a token from these ramps, and every token is
+                    checked for accessible contrast against its intended background.
+                </p>
+
+                <div id="ds-color-scales"></div>
+
+                <h2>Semantic colors</h2>
+                <p>Semantic colors flip between light and dark themes automatically. They always carry meaning —
+                    success, warning, danger, info — and are never used for decoration.</p>
+                <div id="ds-color-semantic"></div>
+
+                <h2>Theme tokens</h2>
+                <p>These role tokens are what components actually consume. They map to palette tokens and change value
+                    with the theme, so components never have to know whether the app is in light or dark mode.</p>
+                <div id="ds-color-theme"></div>
+            </section>
+
+            <!-- ===================== TYPOGRAPHY ===================== -->
+            <section id="typography_page" class="page hide-completely">
+                <h1 class="page__title">Typography</h1>
+                <p>
+                    Three typefaces, one clear job each: Poppins for display and hierarchy, Roboto for long-form body
+                    copy, and Roboto Mono for anything numeric or code-like. We use a modular scale with a fixed set of
+                    sizes — no one invents a font size.
+                </p>
+
+                <h2>Type families</h2>
+                <div id="ds-type-families" class="fam-grid"></div>
+
+                <h2>Type scale</h2>
+                <div id="ds-type-scale"></div>
+
+                <h2>Rules of thumb</h2>
+                <section class="table">
+                    <div class="tr">
+                        <div><code>Line length</code></div>
+                        <p>Keep body copy at ~65 characters or less for comfortable reading.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Hierarchy</code></div>
+                        <p>Use the scale's weights and sizes — never fake hierarchy with color alone.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Mono</code></div>
+                        <p>Use Roboto Mono for numbers, hashes, addresses and code so digits align.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Accessibility</code></div>
+                        <p>Body text must meet WCAG AA contrast (4.5:1) against its background.</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ===================== SPACING ===================== -->
+            <section id="spacing_page" class="page hide-completely">
+                <h1 class="page__title">Spacing &amp; layout</h1>
+                <p>
+                    Spacing runs on a 4px base grid. Every gap, margin and padding in the system is a step on this
+                    scale — that's what makes layouts feel rhythmically consistent even when the content changes.
+                </p>
+                <div id="ds-spacing"></div>
+
+                <h2>Breakpoints</h2>
+                <p>The system adapts across three breakpoints. Layouts start mobile-first and scale up.</p>
+                <div id="ds-breakpoints"></div>
+
+                <h2>Layout rules</h2>
+                <section class="table">
+                    <div class="tr">
+                        <div><code>Grid</code></div>
+                        <p>Content sits on a fluid grid; columns collapse to one on mobile.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Gutters</code></div>
+                        <p>Use space-4 (16px) as the default page gutter, space-5 (24px) for larger panels.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Touch targets</code></div>
+                        <p>Interactive targets aim for a minimum 24px hit area (44px recommended on touch).</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Alignment</code></div>
+                        <p>Prefer multiples of the base grid so elements line up across components.</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ===================== RADIUS & ELEVATION ===================== -->
+            <section id="elevation_page" class="page hide-completely">
+                <h1 class="page__title">Radius &amp; elevation</h1>
+                <p>
+                    Radius is intentionally small — the system reads as clean and honest, not bubbly. Elevation is
+                    expressed through soft shadows that scale with importance, from resting cards up to modal popups.
+                </p>
+
+                <h2>Border radius</h2>
+                <div id="ds-radius" class="radius-grid"></div>
+
+                <h2>Elevation</h2>
+                <div id="ds-shadow" class="shadow-grid"></div>
+
+                <h2>Z-index</h2>
+                <section class="table">
+                    <div id="ds-zindex"></div>
+                </section>
+            </section>
+
+            <!-- ===================== MOTION ===================== -->
+            <section id="motion_page" class="page hide-completely">
+                <h1 class="page__title">Motion</h1>
+                <p>
+                    Motion is functional, not decorative. It communicates state changes, direction and hierarchy, and it
+                    respects <code>prefers-reduced-motion</code>. We keep a deliberately small vocabulary of durations
+                    and curves.
+                </p>
+
+                <h2>Durations</h2>
+                <div id="ds-duration"></div>
+
+                <h2>Easing</h2>
+                <div id="ds-easing"></div>
+
+                <div class="card" style="margin-top:1.5rem;">
+                    <h3>Motion principles</h3>
+                    <p><strong>Fast for feedback, slow for transitions.</strong> Hover and micro-interactions use 100ms;
+                        page and popup changes use 300ms. If a motion doesn't help the user understand the interface,
+                        it doesn't ship.</p>
+                </div>
+            </section>
+
+            <!-- ===================== ICONOGRAPHY ===================== -->
+            <section id="icons_page" class="page hide-completely">
+                <h1 class="page__title">Iconography</h1>
+                <p>
+                    Icons live on a 24×24 grid with consistent stroke weight. They're used as functional aids —
+                    reinforcing meaning, never replacing it. Status is always conveyed by color <em>and</em> an icon or
+                    label, never color alone.
+                </p>
+                <div id="ds-icons" class="icon-grid"></div>
+
+                <h2>Usage rules</h2>
+                <section class="table">
+                    <div class="tr">
+                        <div><code>Grid</code></div>
+                        <p>All glyphs draw on a 24×24 viewBox; sizes are 16 / 24 / 32px.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Labels</code></div>
+                        <p>Icon-only buttons must have an accessible label or tooltip.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Meaning</code></div>
+                        <p>Use the established glyph for an action — don't redraw familiar icons.</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ===================== COMPONENTS ===================== -->
+            <section id="components_page" class="page hide-completely">
+                <h1 class="page__title">Component library</h1>
+                <p>
+                    The library is built from native Web Components — self-contained elements with encapsulated style
+                    and behaviour that work in any framework (or none). Browse by category, then open the full
+                    component documentation for anatomy, states, variants and CSS variables.
+                </p>
+                <div id="ds-comp-filters" class="chip-row"></div>
+                <div id="ds-comp-grid" class="comp-grid"></div>
+
+                <h2>See the components live</h2>
+                <p>Every component in this system renders on <a href="../components/index.html" target="_blank"
+                        rel="noopener">the components documentation site</a> — with interactive demos, code samples and
+                    styling options. The theme toggle in this page's header is a live component, as are the popups and
+                    notifications used below.</p>
+            </section>
+
+            <!-- ===================== COMPONENT SPECS ===================== -->
+            <section id="specs_page" class="page hide-completely">
+                <h1 class="page__title">Component specs</h1>
+                <p>
+                    A spec is the contract between design and engineering. It defines what a component is made of
+                    (anatomy), how it can look (variants), how it can behave (states), its public API, and the rules for
+                    using it well. These are the specs for our most-used components — everything here is rendered from
+                    the real components, so what you see is what ships.
+                </p>
+                <div id="ds-specs" class="comp-grid"></div>
+            </section>
+
+            <!-- ===================== INDIVIDUAL SPEC PAGES ===================== -->
+            <section id="spec_button_page" class="page hide-completely">
+                <div id="ds-spec-button"></div>
+            </section>
+            <section id="spec_input_page" class="page hide-completely">
+                <div id="ds-spec-input"></div>
+            </section>
+            <section id="spec_select_page" class="page hide-completely">
+                <div id="ds-spec-select"></div>
+            </section>
+            <section id="spec_notifications_page" class="page hide-completely">
+                <div id="ds-spec-notifications"></div>
+            </section>
+            <section id="spec_popup_page" class="page hide-completely">
+                <div id="ds-spec-popup"></div>
+            </section>
+            <section id="spec_page" class="page hide-completely">
+                <div id="ds-spec-page"></div>
+            </section>
+
+            <!-- ===================== DESIGN PRACTICE ===================== -->
+            <section id="practice_page" class="page hide-completely">
+                <h1 class="page__title">Design practice</h1>
+                <p>
+                    A component library is only useful when it improves the experience. This is the working lens behind
+                    RanchiMall: understand the job, make the state legible, test the edges, and leave a clear contract
+                    for
+                    the next person who builds on it.
+                </p>
+
+                <h2>From problem to product</h2>
+                <div class="principle-grid">
+                    <div class="principle-card"><span class="principle-card__n">01</span>
+                        <h3>Frame the job</h3>
+                        <p>Define who is acting, what they are trying to accomplish, and what uncertainty or friction
+                            stands in the way.</p>
+                    </div>
+                    <div class="principle-card"><span class="principle-card__n">02</span>
+                        <h3>Map the states</h3>
+                        <p>Design the first view, loading, empty, error, disabled, success, focus, and recovery states
+                            before polishing the happy path.</p>
+                    </div>
+                    <div class="principle-card"><span class="principle-card__n">03</span>
+                        <h3>Compose the system</h3>
+                        <p>Choose the smallest existing primitives that make the flow coherent, then document the reason
+                            for any new pattern.</p>
+                    </div>
+                    <div class="principle-card"><span class="principle-card__n">04</span>
+                        <h3>Prove the edges</h3>
+                        <p>Check keyboard flow, content extremes, narrow screens, dark mode, reduced motion, and real
+                            feedback from the interface.</p>
+                    </div>
+                </div>
+
+                <h2>Experience review lens</h2>
+                <section class="table practice-table">
+                    <div class="tr">
+                        <div class="table__heading">Lens</div>
+                        <div class="table__heading">Question</div>
+                        <div class="table__heading">Evidence</div>
+                    </div>
+                    <div class="tr">
+                        <div><strong>Clarity</strong></div>
+                        <p>Can someone predict what happens next?</p>
+                        <p>Labels, hierarchy, affordances, and copy.</p>
+                    </div>
+                    <div class="tr">
+                        <div><strong>Control</strong></div>
+                        <p>Can someone pause, undo, cancel, or recover?</p>
+                        <p>Focus order, escape routes, undo, and error recovery.</p>
+                    </div>
+                    <div class="tr">
+                        <div><strong>Continuity</strong></div>
+                        <p>Does the interface preserve context across change?</p>
+                        <p>Selection, scroll, focus restoration, and responsive transitions.</p>
+                    </div>
+                    <div class="tr">
+                        <div><strong>Confidence</strong></div>
+                        <p>Does the system explain its state at the right moment?</p>
+                        <p>Progress, validation, success, failure, and announcements.</p>
+                    </div>
+                </section>
+
+                <h2>Case-study snapshot</h2>
+                <div class="practice-snapshot">
+                    <div><span class="spec-guidance__eyebrow">Challenge</span>
+                        <p>Make a frameworkless UI library feel dependable enough for repeated product work, not merely
+                            attractive in isolation.</p>
+                    </div>
+                    <div><span class="spec-guidance__eyebrow">Approach</span>
+                        <p>Centralise tokens, expose live Web Components, document behavior as a contract, and verify
+                            accessibility and responsive behavior in the browser.</p>
+                    </div>
+                    <div><span class="spec-guidance__eyebrow">Outcome</span>
+                        <p>A browsable system where visual decisions, implementation details, and experience quality can
+                            be inspected in the same place.</p>
+                    </div>
+                </div>
+
+                <h2>Ship criteria</h2>
+                <ul class="spec-detail-list spec-detail-list--testing">
+                    <li>The primary task is understandable without a tutorial.</li>
+                    <li>Every meaningful state has a designed response.</li>
+                    <li>Keyboard and assistive technology paths are usable.</li>
+                    <li>Content survives narrow widths and high zoom.</li>
+                    <li>Tokens, markup, and documentation agree with the shipped component.</li>
+                    <li>There is a clear reason to add or change the pattern.</li>
+                </ul>
+            </section>
+
+            <!-- ===================== PATTERNS ===================== -->
+            <section id="patterns_page" class="page hide-completely">
+                <h1 class="page__title">Patterns</h1>
+                <p>
+                    Patterns are how components come together to solve real, repeated problems. They're the difference
+                    between a library and a system — and they're all rendered from live components, right on this page.
+                </p>
+                <div id="ds-patterns" class="pattern-grid"></div>
+
+                <h2>Patterns in practice</h2>
+
+                <div class="demo">
+                    <h3 class="demo__title">Forms with inline validation</h3>
+                    <p class="demo__desc">Wrapped in <code>sm-form</code> so validation is consistent; submit is a
+                        primary button.</p>
+                    <sm-form>
+                        <sm-input placeholder="Email" type="email" error-text="Please enter a valid email" required
+                            animate></sm-input>
+                        <sm-input placeholder="Password" type="password" required animate></sm-input>
+                        <sm-button variant="primary" type="submit">Create account</sm-button>
+                    </sm-form>
+                </div>
+
+                <div class="demo">
+                    <h3 class="demo__title">Feedback — notifications &amp; confirmations</h3>
+                    <p class="demo__desc">Passive updates use toasts; decisions use a confirmation popup.</p>
+                    <div class="demo__row">
+                        <sm-button onclick="notify('Your changes were saved.', 'success')">Success toast</sm-button>
+                        <sm-button onclick="notify('Something went wrong.', 'error')">Error toast</sm-button>
+                        <sm-button
+                            onclick="getConfirmation('Delete this project?', {message:'This action cannot be undone.', confirmText:'Delete', danger:true}).then(ok => ok && notify('Project deleted.', 'success'))">
+                            Confirmation</sm-button>
+                    </div>
+                </div>
+
+                <div class="demo">
+                    <h3 class="demo__title">Prompting for input</h3>
+                    <p class="demo__desc">A styled replacement for the browser <code>prompt()</code>.</p>
+                    <div class="demo__row">
+                        <sm-button
+                            onclick="getPromptInput('Project name', 'What should we call it?', {placeholder:'e.g. Checkout flow'}).then(v => v && notify('Project “'+v+'” created.', 'success'))">
+                            Ask for input</sm-button>
+                    </div>
+                </div>
+
+                <div class="demo">
+                    <h3 class="demo__title">Toggle controls</h3>
+                    <p class="demo__desc">Switch, checkbox and radio for settings and choices.</p>
+                    <div class="demo__row">
+                        <sm-switch>
+                            <div slot="left">Enable notifications</div>
+                        </sm-switch>
+                        <sm-checkbox>Remember me</sm-checkbox>
+                        <sm-radio name="plan">
+                            <div>Monthly</div>
+                        </sm-radio>
+                        <sm-radio name="plan">
+                            <div>Yearly</div>
+                        </sm-radio>
+                    </div>
+                </div>
+
+                <div class="demo">
+                    <h3 class="demo__title">Loading</h3>
+                    <p class="demo__desc">Spinners communicate in-flight work without blocking the page.</p>
+                    <div class="demo__row">
+                        <sm-spinner></sm-spinner>
+                    </div>
+                </div>
+
+                <div class="demo">
+                    <h3 class="demo__title">Copy &amp; share</h3>
+                    <p class="demo__desc">One-tap copy with built-in confirmation feedback.</p>
+                    <div class="demo__row">
+                        <sm-copy value="FKAEdnPfjXLHSYwrXQu377ugN4tXU7VGdf"></sm-copy>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== ACCESSIBILITY ===================== -->
+            <section id="accessibility_page" class="page hide-completely">
+                <h1 class="page__title">Accessibility</h1>
+                <p>
+                    Accessibility is a first-class requirement of the system, not a compliance checklist. Every
+                    component is built and documented against these standards so products built on the system inherit
+                    them for free.
+                </p>
+
+                <h2>Standards we hold</h2>
+                <section class="table">
+                    <div class="tr">
+                        <div><code>Contrast</code></div>
+                        <p>Text meets WCAG AA (4.5:1); large text and UI
+                            components meet AA large (3:1). All tokens are checked — the badges on the color page show
+                            measured ratios.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Keyboard</code></div>
+                        <p>Everything is reachable and operable by
+                            keyboard: <code>Tab</code> to move, <code>Enter</code>/<code>Space</code> to activate,
+                            arrow keys in selects, menus and tabs, <code>Esc</code> to dismiss popups.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Focus</code></div>
+                        <p>A clearly visible <code>:focus-visible</code>
+                            indicator ships with every interactive element. Focus is never removed or hidden.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>ARIA</code></div>
+                        <p>Landmarks, labels and live regions are wired into
+                            components — notifications announce to screen readers, icons are decorative with text
+                            alternatives where needed.</p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Reduced motion</code></div>
+                        <p>The system respects
+                            <code>prefers-reduced-motion</code>: decorative animation stops, essential transitions
+                            remain.
+                        </p>
+                    </div>
+                    <div class="tr">
+                        <div><code>Target size</code></div>
+                        <p>Interactive targets are at least 24px, with
+                            44px recommended for touch — spacing tokens make this easy to honour.</p>
+                    </div>
+                </section>
+
+                <div class="card">
+                    <h3>Why this matters</h3>
+                    <p>When accessibility lives in the system instead of the app, every product built on it starts
+                        accessible and stays accessible. It's the highest-leverage accessibility work a design system
+                        can do.</p>
+                </div>
+            </section>
+
+            <!-- ===================== DO'S & DON'TS ===================== -->
+            <section id="guidelines_page" class="page hide-completely">
+                <h1 class="page__title">Do's &amp; don'ts</h1>
+                <p>
+                    Guidelines keep the system consistent even when the designers and engineers who built it aren't in
+                    the room. These are the rules of thumb we review in every code and design review.
+                </p>
+                <div id="ds-guidelines"></div>
+            </section>
+
+            <!-- ===================== RESOURCES ===================== -->
+            <section id="resources_page" class="page hide-completely">
+                <h1 class="page__title">Resources</h1>
+                <p>
+                    Everything the system is made of, ready to use. Tokens are the single source of truth — the CSS
+                    variables you see on this site are generated from them.
+                </p>
+
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">dataset</span>
+                        <h2>Design tokens</h2>
+                        <code>tokens/tokens.json</code>
+                        <p>The source of truth: brand, neutrals, semantics, type, spacing, radius, elevation, motion,
+                            breakpoints and z-index.</p>
+                        <a href="tokens/tokens.json" download>Download JSON <span class="material-icons link-icon"
+                                aria-hidden="true">download</span></a>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">palette</span>
+                        <h2>CSS variables</h2>
+                        <code>tokens/tokens.css</code>
+                        <p>The same tokens exported as CSS custom properties, ready to drop into any project.</p>
+                        <a href="tokens/tokens.css" download>Download CSS <span class="material-icons link-icon"
+                                aria-hidden="true">download</span></a>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">description</span>
+                        <h2>Evidence ledger</h2>
+                        <code>evidence/case-study.json</code>
+                        <p>Verified implementation claims, claims that still need project artifacts, and the record of
+                            how each portfolio statement is supported.</p>
+                        <a href="evidence/case-study.json" target="_blank" rel="noopener">Open evidence ledger <span
+                                class="material-icons link-icon" aria-hidden="true">open_in_new</span></a>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">widgets</span>
+                        <h2>Component library</h2>
+                        <code>components/components.js</code>
+                        <p>26 native Web Components with full docs, demos and code samples.</p>
+                        <a href="../components/index.html" target="_blank" rel="noopener">Open component docs <span
+                                class="material-icons link-icon" aria-hidden="true">open_in_new</span></a>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">dashboard</span>
+                        <h2>Starter layouts</h2>
+                        <code>Layouts/</code>
+                        <p>Four responsive page layouts &mdash; boxes, many sections, sidebar and tabs &mdash; wired
+                            with the
+                            system out of the box.</p>
+                        <a href="../Layouts/sidebar layout/index.html" target="_blank" rel="noopener">Preview layouts
+                            <span class="material-icons link-icon" aria-hidden="true">open_in_new</span></a>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">code</span>
+                        <h2>Utility library</h2>
+                        <code>main_UI.js</code>
+                        <p>getRef, createElement, debounce, throttle, popups, prompts, notifications, router and lazy
+                            loading.</p>
+                        <a href="../main_UI.js" download>Download JS <span class="material-icons link-icon"
+                                aria-hidden="true">download</span></a>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card__icon material-icons" aria-hidden="true">volume_up</span>
+                        <h2>Notification sound</h2>
+                        <code>notification sound/</code>
+                        <p>MP3 and OGG assets used by the notification component for richer feedback.</p>
+                    </div>
+                </div>
+
+                <h2>Getting started</h2>
+                <ol>
+                    <li>Pick a layout from the <span class="highlight">Layouts</span> folder — it includes the
+                        utilities, components and theme toggle.</li>
+                    <li>Add the components you need from the <a href="../components/index.html" target="_blank"
+                            rel="noopener">component library</a>.</li>
+                    <li>Drop <span class="highlight">tokens/tokens.css</span> into your project and customize the
+                        palette in one place.</li>
+                    <li>Follow the <a href="#guidelines_page">dos and don'ts</a> and the <a
+                            href="#accessibility_page">accessibility standards</a>.</li>
+                </ol>
+
+                <footer>
+                    <strong>RanchiMall Design System v1.0.0</strong> · Designed and built from scratch by the portfolio
+                    author · <a href="../README.md">Project readme <span class="material-icons link-icon"
+                            aria-hidden="true">open_in_new</span></a>
+                </footer>
+            </section>
+        </article>
+    </main>
+
+    <script src="js/tokens-runtime.js?v=a42c251b1146"></script>
+    <script src="js/components.js?v=178d54e4d321"></script>
+    <script src="js/docs-runtime.js?v=057fa9e354c0"></script>
+    <script src="js/design-system.js?v=10f78853cf46"></script>
+</body>
+
+</html>

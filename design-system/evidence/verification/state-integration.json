@@ -1,0 +1,29 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Playwright integration audit across every visible component spec page",
+  "evidence": {
+    "routesInspected": 21,
+    "componentsPassed": 21,
+    "pagesWithAtLeastThreeStates": 21,
+    "disabledLabelsWithDisabledAttributes": 21,
+    "disabledLabelsWithVisibleDisabledControls": 21,
+    "checkedSelectedOnDarkLabelsWithStateAttributes": 21,
+    "demosWithPositiveGeometry": 21,
+    "runtimeErrors": 0
+  },
+  "assertions": [
+    "State labels are checked against actual descendant custom-element attributes.",
+    "Checkbox unchecked/checked/disabled states expose the expected checked and disabled attributes.",
+    "Form disabled-submit state is produced by an invalid required field through sm-form validation.",
+    "Menu disabled-option state opens the menu and verifies the disabled option is visible and removed from the tab order.",
+    "Every spec page renders at least three component-aware state fixtures.",
+    "Dynamic hover/focus states are allowed to share markup because their state change is interaction-driven rather than attribute-driven."
+  ],
+  "defectsFoundAndFixed": [
+    "Generic state fallback reused identical markup for Default, Disabled, and Focus.",
+    "Checkbox disabled state did not carry disabled and checked states did not carry checked.",
+    "Form disabled state was initially modeled with a literal button attribute that sm-form overwrote.",
+    "Explicit empty state arrays bypassed the rich state fixture fallback."
+  ]
+}

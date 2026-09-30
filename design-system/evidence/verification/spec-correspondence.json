@@ -1,0 +1,27 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Playwright correspondence audit across every component spec route",
+  "evidence": {
+    "routesInspected": 26,
+    "componentsPassed": 26,
+    "tagToDemoMatches": 26,
+    "demosWithPositiveGeometry": 26,
+    "specsWithNonEmptyStateCoverage": 26,
+    "runtimeErrors": 0,
+    "globalDemoTargetsResolved": ["notification_drawer"]
+  },
+  "assertions": [
+    "Written spec tag equals data-spec-tag.",
+    "data-demo-tag equals data-spec-tag.",
+    "The expected custom element or declared global demo target exists.",
+    "The demo wrapper has positive width and height.",
+    "Every component page renders at least one state entry.",
+    "No runtime errors occur during route traversal."
+  ],
+  "defectsFoundAndFixed": [
+    "Notifications was initially judged absent because its buttons drive the global notification drawer rather than rendering the drawer inside the local demo wrapper.",
+    "An explicit empty Notifications state array bypassed shared state enrichment.",
+    "Text field initially used an unsupported nested sm-input demo."
+  ]
+}

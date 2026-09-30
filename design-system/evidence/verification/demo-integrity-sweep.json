@@ -1,0 +1,36 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Playwright inspection of every live component spec demo",
+  "evidence": {
+    "routesInspected": 26,
+    "demosInspected": 26,
+    "unknownCustomElements": 0,
+    "runtimeErrors": 0,
+    "carousel": {
+      "assignedSlides": 3,
+      "slideWidths": [358, 358, 358],
+      "carouselWidth": 358,
+      "scrollWidth": 1075,
+      "indicators": 3,
+      "namedControls": 2,
+      "hostRole": "region",
+      "hostLabel": "Featured examples"
+    },
+    "textField": {
+      "nestedUnsupportedInput": false,
+      "visibleWidth": 358,
+      "visibleHeight": 22
+    }
+  },
+  "defectsFoundAndFixed": [
+    "Carousel demo slides collapsed because slides had no min-width or meaningful height.",
+    "Carousel demo omitted indicator and accessible region attributes.",
+    "Carousel controls and indicators lacked accessible names/semantics.",
+    "Text field demo used an unsupported nested sm-input and rendered the child at zero size."
+  ],
+  "notes": [
+    "Closed popup surfaces and structural option children are not treated as broken zero-size visual hosts.",
+    "Static tests now reject unregistered custom elements inside future demo markup."
+  ]
+}

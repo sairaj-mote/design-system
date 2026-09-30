@@ -1,0 +1,494 @@
+{
+  "generatedAt": "2026-08-27T22:29:42.578Z",
+  "status": "passed",
+  "coverage": {
+    "shippedComponents": 26,
+    "standaloneComponents": 21,
+    "childComponents": 5,
+    "registeredComponents": 26,
+    "specEntries": 21,
+    "liveSpecDemos": 21,
+    "expectedCasesPerComponent": {
+      "Actions": 5,
+      "Inputs": 6,
+      "Navigation": 5,
+      "Feedback": 5,
+      "Media": 5
+    },
+    "totalExpectedCases": 116,
+    "coveredComponents": 21
+  },
+  "reviewerTracks": [
+    "demo inventory",
+    "keyboard outcomes",
+    "state outcomes",
+    "events",
+    "accessibility",
+    "responsive behavior",
+    "motion/reduced motion",
+    "markup/documentation"
+  ],
+  "components": [
+    {
+      "name": "Button",
+      "tag": "sm-button",
+      "category": "Actions",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "default activation",
+        "keyboard Enter",
+        "keyboard Space",
+        "disabled activation is blocked",
+        "focus-visible state"
+      ],
+      "evidenceTokensFound": [
+        "click()",
+        "handleKeyDown",
+        "disabled",
+        "focus-visible"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Copy",
+      "tag": "sm-copy",
+      "category": "Actions",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "default activation",
+        "keyboard Enter",
+        "keyboard Space",
+        "disabled activation is blocked",
+        "focus-visible state"
+      ],
+      "evidenceTokensFound": [
+        "click()",
+        "handleKeyDown",
+        "disabled",
+        "focus-visible"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Theme toggle",
+      "tag": "theme-toggle",
+      "category": "Actions",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "default activation",
+        "keyboard Enter",
+        "keyboard Space",
+        "disabled activation is blocked",
+        "focus-visible state"
+      ],
+      "evidenceTokensFound": [
+        "click()",
+        "handleKeyDown",
+        "disabled",
+        "focus-visible"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Input",
+      "tag": "sm-input",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Textarea",
+      "tag": "sm-textarea",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Text field",
+      "tag": "text-field",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Checkbox",
+      "tag": "sm-checkbox",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Radio",
+      "tag": "sm-radio",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Switch",
+      "tag": "sm-switch",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Select",
+      "tag": "sm-select",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Strip select",
+      "tag": "strip-select",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Tags input",
+      "tag": "tags-input",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "File input",
+      "tag": "file-input",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Form",
+      "tag": "sm-form",
+      "category": "Inputs",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial value",
+        "focus and blur",
+        "change/input event",
+        "keyboard entry",
+        "disabled state",
+        "validation or empty state"
+      ],
+      "evidenceTokensFound": [
+        "change",
+        "disabled",
+        "focus"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Hamburger menu",
+      "tag": "hamburger-menu",
+      "category": "Navigation",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "default destination or selection",
+        "keyboard navigation",
+        "active/selected state",
+        "escape or close path",
+        "narrow viewport behavior"
+      ],
+      "evidenceTokensFound": [
+        "keydown",
+        "selected",
+        "close"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Menu",
+      "tag": "sm-menu",
+      "category": "Navigation",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "default destination or selection",
+        "keyboard navigation",
+        "active/selected state",
+        "escape or close path",
+        "narrow viewport behavior"
+      ],
+      "evidenceTokensFound": [
+        "keydown",
+        "selected",
+        "close"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Tabs",
+      "tag": "sm-tab-header",
+      "category": "Navigation",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "default destination or selection",
+        "keyboard navigation",
+        "active/selected state",
+        "escape or close path",
+        "narrow viewport behavior"
+      ],
+      "evidenceTokensFound": [
+        "keydown",
+        "selected",
+        "close"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Notifications",
+      "tag": "sm-notifications",
+      "category": "Feedback",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "open or start state",
+        "success or completion state",
+        "error or unavailable state",
+        "dismiss/escape path",
+        "announcement or live-region output"
+      ],
+      "evidenceTokensFound": [
+        "aria-live",
+        "close",
+        "hide"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Popup",
+      "tag": "sm-popup",
+      "category": "Feedback",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "open or start state",
+        "success or completion state",
+        "error or unavailable state",
+        "dismiss/escape path",
+        "announcement or live-region output"
+      ],
+      "evidenceTokensFound": [
+        "aria-live",
+        "close",
+        "hide"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Spinner",
+      "tag": "sm-spinner",
+      "category": "Feedback",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "open or start state",
+        "success or completion state",
+        "error or unavailable state",
+        "dismiss/escape path",
+        "announcement or live-region output"
+      ],
+      "evidenceTokensFound": [
+        "aria-live",
+        "close",
+        "hide"
+      ],
+      "status": "covered"
+    },
+    {
+      "name": "Carousel",
+      "tag": "sm-carousel",
+      "category": "Media",
+      "demo": "present",
+      "spec": "present",
+      "sourceReference": "present",
+      "expectedCases": [
+        "initial content state",
+        "next/previous interaction",
+        "keyboard interaction",
+        "empty or loading state",
+        "responsive content bounds"
+      ],
+      "evidenceTokensFound": [
+        "keydown",
+        "resize",
+        "slotchange"
+      ],
+      "status": "covered"
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "This Node runner verifies coverage contracts and source evidence. Browser execution of every action requires Playwright or the VS Code browser harness.",
+    "Visual pixel approval remains evidence-based through browser screenshots, not a CSS string check.",
+    "Carousel browser assertions must verify assigned slide count, slide overflow/width, visible indicators, named controls, and ArrowLeft/ArrowRight scroll direction."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-08-27T22:29:42.865Z",
+  "status": "reviewed",
+  "reviewerLenses": [
+    "mechanical",
+    "visual",
+    "interaction",
+    "motion",
+    "accessibility",
+    "security",
+    "documentation"
+  ],
+  "metrics": {
+    "staticIds": 63,
+    "staticHashLinks": 6,
+    "headingCount": 71,
+    "components": 26,
+    "standaloneComponents": 21,
+    "childComponents": 5,
+    "registeredComponents": 26,
+    "specs": 21,
+    "rawColourLiterals": 5
+  },
+  "findings": [],
+  "evidence": {
+    "sourceFiles": [
+      "design-system/index.html",
+      "design-system/css/main.css",
+      "design-system/js/design-system.js",
+      "components/components.js"
+    ],
+    "method": "Static source inspection with line-level evidence. Pair with browser screenshots and keyboard interaction checks for visual and motion sign-off."
+  }
+}

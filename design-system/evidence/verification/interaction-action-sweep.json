@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Playwright browser sweep over every accordion-linked spec route",
+  "evidence": {
+    "routesVisited": 26,
+    "routesWithControlsExercised": 26,
+    "reachableControls": 116,
+    "keyboardPaths": 232,
+    "clickPaths": 116,
+    "routesWithContentFailures": 0,
+    "runtimeErrors": 0
+  },
+  "keyboardPaths": ["Enter", "Space"],
+  "cleanup": "Open demo popups were closed after each route to isolate subsequent cases.",
+  "limitations": [
+    "This sweep exercises generic activation paths. Component-specific arrow-key, drag, swipe, file-upload, timeout, and screen-reader assertions remain represented in the interaction coverage matrix and should be promoted to dedicated Playwright tests when a committed browser runner is added.",
+    "The sweep does not claim pixel-perfect approval; visual evidence requires retained screenshots at approved viewports."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Runtime contract report from registered custom-element prototypes",
+  "evidence": {
+    "standaloneSpecs": 21,
+    "registeredAndVerified": 21,
+    "missingMethods": 0,
+    "findings": 0
+  },
+  "verifiedClaims": [
+    "Documented methods exist on the corresponding custom-element prototype.",
+    "Every standalone spec tag is registered.",
+    "Child elements are verified through their parent composition specs.",
+    "The Form validate() API is implemented and documented consistently.",
+    "The Menu expand(), collapse(), and toggle() API is implemented and documented consistently."
+  ],
+  "runtimeReport": "window.RMDS_COMPONENT_CONTRACT_REPORT"
+}

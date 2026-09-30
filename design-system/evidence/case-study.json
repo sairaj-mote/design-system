@@ -1,0 +1,57 @@
+{
+  "project": "RanchiMall Design System",
+  "owner": "Portfolio author",
+  "purpose": "Evidence ledger for portfolio claims. Verified claims require source, test, release, research, or adoption artifacts before they can be presented as outcomes.",
+  "claims": [
+    {
+      "id": "component-inventory",
+      "statement": "The library exposes 26 native custom elements.",
+      "status": "verified",
+      "evidence": [
+        "components/components.js: customElements.define inventory",
+        "npm run verify:design-system"
+      ]
+    },
+    {
+      "id": "token-contract",
+      "statement": "The showcase consumes generated CSS and runtime artifacts derived from tokens/tokens.json.",
+      "status": "verified",
+      "evidence": [
+        "scripts/build-design-system.js",
+        "npm run verify:design-system"
+      ]
+    },
+    {
+      "id": "accessibility-contract",
+      "statement": "The showcase enforces source-level contracts for modal semantics, notification announcements, and decorative-content hygiene.",
+      "status": "verified",
+      "evidence": ["components/components.js", "npm run verify:design-system"]
+    },
+    {
+      "id": "delivery-impact",
+      "statement": "The system reduced delivery time or defects for product teams.",
+      "status": "needs-evidence",
+      "evidence": [],
+      "capture": [
+        "Before/after delivery samples",
+        "Team adoption notes",
+        "Issue/defect trend",
+        "Release or PR links"
+      ]
+    },
+    {
+      "id": "design-research",
+      "statement": "The foundations were derived from an audit of existing product screens.",
+      "status": "needs-evidence",
+      "evidence": [],
+      "capture": [
+        "Screen audit board export",
+        "Component inventory spreadsheet",
+        "Original screenshots with dates",
+        "Decision log"
+      ]
+    }
+  ],
+  "changeLog": "evidence/CHANGELOG.md",
+  "verification": "evidence/verification/latest.json"
+}

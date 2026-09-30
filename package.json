@@ -1,0 +1,12 @@
+{
+  "name": "ranchimall-standard-ui",
+  "private": true,
+  "scripts": {
+    "build:design-system": "node scripts/build-design-system.js",
+    "verify:design-system": "node scripts/verify-design-system.js",
+    "audit:design-system": "node scripts/audit-design-system.js",
+    "test:design-system": "node scripts/test-design-system.js",
+    "test": "npm run build:design-system && npm run verify:design-system",
+    "review:design-system": "npm test && npm run test:design-system && npm run audit:design-system"
+  }
+}

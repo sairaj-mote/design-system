@@ -1,0 +1,26 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Playwright browser sweep through every accordion-linked component spec route",
+  "evidence": {
+    "requestedViewport": "1440x900",
+    "routesDiscoveredFrom": ".nav-accordion__list a",
+    "routesDiscovered": 26,
+    "routesRenderedWithSubstantiveContent": 26,
+    "routesWithMissingHeadingOrContent": 0,
+    "runtimeErrors": 0,
+    "componentGalleryCards": 26,
+    "componentGalleryExternalLinks": 0,
+    "horizontalOverflow": false
+  },
+  "defectsFoundAndFixed": [
+    "Carousel ArrowLeft incorrectly called scrollRight.",
+    "Carousel slotchange referenced local navButtonLeft/navButtonRight names.",
+    "Strip select disconnectedCallback referenced local navigation button names.",
+    "Tab panels disconnectedCallback referenced a local IntersectionObserver instead of an instance-owned observer."
+  ],
+  "notes": [
+    "This is route rendering and lifecycle smoke coverage; individual keyboard and pointer cases remain enumerated in interaction-coverage.json.",
+    "The sweep uses a fresh cache-busting query string for each run."
+  ]
+}

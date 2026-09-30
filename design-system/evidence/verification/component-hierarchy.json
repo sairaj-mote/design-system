@@ -1,0 +1,25 @@
+{
+  "reviewedAt": "2026-08-12",
+  "status": "passed",
+  "method": "Static inventory validation plus browser navigation inspection",
+  "evidence": {
+    "registeredElements": 26,
+    "standaloneComponentSpecs": 21,
+    "integratedChildParts": 5,
+    "standaloneSidebarRoutes": 21,
+    "childOnlyRoutes": 0,
+    "parentCompositionExamples": {
+      "Select": ["<sm-option>"],
+      "Menu": ["<menu-option>"],
+      "Strip select": ["<strip-option>"],
+      "Tabs": ["<sm-tab>", "<sm-tab-panels>"]
+    }
+  },
+  "childParts": [
+    { "tag": "sm-option", "parent": "sm-select" },
+    { "tag": "menu-option", "parent": "sm-menu" },
+    { "tag": "strip-option", "parent": "strip-select" },
+    { "tag": "sm-tab", "parent": "sm-tab-header" },
+    { "tag": "sm-tab-panels", "parent": "sm-tab-header" }
+  ]
+}
