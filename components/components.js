@@ -1008,7 +1008,7 @@ customElements.define('file-input', class extends HTMLElement {
         this.input = this.shadowRoot.querySelector('input')
         this.fileInput = this.shadowRoot.querySelector('.file-input')
         this.filesPreviewWraper = this.shadowRoot.querySelector('.files-preview-wrapper')
-        this.reflectedAttributes = ['accept', 'multiple', 'capture']
+        this.reflectedAttributes = ['accept', 'multiple', 'capture', 'disabled']
 
         this.reset = this.reset.bind(this)
         this.formatBytes = this.formatBytes.bind(this)
@@ -1017,10 +1017,16 @@ customElements.define('file-input', class extends HTMLElement {
         this.handleKeyDown = this.handleKeyDown.bind(this)
     }
     static get observedAttributes() {
-        return ['accept', 'multiple', 'capture']
+        return ['accept', 'multiple', 'capture', 'disabled']
     }
     get files() {
         return this.input.files
+    }
+    get disabled() {
+        return this.input.disabled
+    }
+    set disabled(value) {
+        this.toggleAttribute('disabled', Boolean(value))
     }
     set accept(val) {
         this.setAttribute('accept', val)
@@ -1049,12 +1055,14 @@ customElements.define('file-input', class extends HTMLElement {
     formatBytes(a, b = 2) { if (0 === a) return "0 Bytes"; const c = 0 > b ? 0 : b, d = Math.floor(Math.log(a) / Math.log(1024)); return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + " " + ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"][d] }
     createFilePreview(file) {
         const filePreview = document.createElement('li')
-        const { name, size } = file
+        const fileName = document.createElement('div')
+        const fileSize = document.createElement('h5')
         filePreview.className = 'file-preview'
-        filePreview.innerHTML = `
-			<div class="file-name">${name}</div>
-            <h5 class="file-size">${this.formatBytes(size)}</h5>
-		`
+        fileName.className = 'file-name'
+        fileName.textContent = file.name
+        fileSize.className = 'file-size'
+        fileSize.textContent = this.formatBytes(file.size)
+        filePreview.append(fileName, fileSize)
         return filePreview
     }
     handleChange(e) {
@@ -1068,6 +1076,7 @@ customElements.define('file-input', class extends HTMLElement {
         this.filesPreviewWraper.append(frag)
     }
     handleKeyDown(e) {
+        if (this.disabled) return
         if (e.key === 'Enter' || e.code === 'Space') {
             e.preventDefault()
             this.input.click()
@@ -1120,84 +1129,96 @@ smForm.innerHTML = `
 customElements.define('sm-form', class extends HTMLElement {
     constructor() {
         super()
-        this.attachShadow({
-            mode: 'open'
-        }).append(smForm.content.cloneNode(true))
-
-        this.form = this.shadowRoot.querySelector('form');
-        this.formElements
-        this.requiredElements
-        this.submitButton
-        this.resetButton
-        this.allRequiredValid = false;
-
+        this.attachShadow({ mode: 'open' }).append(smForm.content.cloneNode(true))
+        this.form = this.shadowRoot.querySelector('form')
+        this.formElements = []
+        this.requiredElements = []
+        this.submitButton = null
+        this.resetButton = null
+        this.boundSubmitButton = null
+        this.allRequiredValid = false
         this.debounce = this.debounce.bind(this)
         this._checkValidity = this._checkValidity.bind(this)
+        this.handleInput = this.handleInput.bind(this)
         this.handleKeydown = this.handleKeydown.bind(this)
+        this.handleSubmitClick = this.handleSubmitClick.bind(this)
         this.reset = this.reset.bind(this)
         this.elementsChanged = this.elementsChanged.bind(this)
+        this.handleInputDebounced = this.debounce(this._checkValidity, 100)
     }
     debounce(callback, wait) {
-        let timeoutId = null;
+        let timeoutId = null
         return (...args) => {
-            window.clearTimeout(timeoutId);
-            timeoutId = window.setTimeout(() => {
-                callback.apply(null, args);
-            }, wait);
-        };
+            window.clearTimeout(timeoutId)
+            timeoutId = window.setTimeout(() => callback.apply(null, args), wait)
+        }
     }
     _checkValidity() {
         this.allRequiredValid = this.requiredElements.every(elem => elem.isValid)
-        if (!this.submitButton) return;
-        if (this.allRequiredValid) {
-            this.submitButton.disabled = false;
-        }
-        else {
-            this.submitButton.disabled = true;
-        }
+        if (this.submitButton) this.submitButton.disabled = !this.allRequiredValid
     }
     validate() {
         this._checkValidity()
         return this.allRequiredValid
     }
-    handleKeydown(e) {
-        if (e.key === 'Enter' && e.target.tagName !== 'SM-TEXTAREA') {
-            if (this.allRequiredValid) {
-                if (this.submitButton && this.submitButton.tagName === 'SM-BUTTON') {
-                    this.submitButton.click()
-                }
-                this.dispatchEvent(new CustomEvent('submit', {
-                    bubbles: true,
-                    composed: true,
-                }))
-            }
-            else {
-                this.requiredElements.find(elem => !elem.isValid).vibrate()
-            }
+    submitForm() {
+        if (!this.validate()) {
+            this.requiredElements.find(elem => !elem.isValid)?.vibrate?.()
+            return false
         }
+        this.dispatchEvent(new CustomEvent('submit', { bubbles: true, composed: true }))
+        return true
+    }
+    handleSubmitClick(event) {
+        if (this.submitButton?.disabled) return
+        event.preventDefault()
+        this.submitForm()
+    }
+    handleInput() {
+        // Validation and submit affordance stay in sync with the same input event.
+        this._checkValidity()
+    }
+    handleKeydown(event) {
+        if (event.key !== 'Enter' || event.target.tagName === 'SM-TEXTAREA' || event.target.closest?.('sm-button')) return
+        event.preventDefault()
+        if (!this.validate()) {
+            this.requiredElements.find(elem => !elem.isValid)?.vibrate?.()
+            return
+        }
+        if (this.submitButton && !this.submitButton.disabled) this.submitButton.click()
+        else this.submitForm()
     }
     reset() {
         this.formElements.forEach(elem => elem.reset())
+        this._checkValidity()
     }
     elementsChanged() {
         this.formElements = [...this.querySelectorAll('sm-input, sm-textarea, sm-checkbox, tags-input, file-input, sm-switch, sm-radio')]
-        this.requiredElements = this.formElements.filter(elem => elem.hasAttribute('required'));
-        this.submitButton = this.querySelector('[variant="primary"], [type="submit"]');
-        this.resetButton = this.querySelector('[type="reset"]');
+        this.requiredElements = this.formElements.filter(elem => elem.hasAttribute('required'))
+        this.submitButton = this.querySelector('[variant="primary"], [type="submit"]')
+        if (this.boundSubmitButton !== this.submitButton) {
+            this.boundSubmitButton?.removeEventListener('click', this.handleSubmitClick)
+            this.boundSubmitButton = this.submitButton
+            this.boundSubmitButton?.addEventListener('click', this.handleSubmitClick)
+        }
+        this.resetButton = this.querySelector('[type="reset"]')
         if (this.resetButton) {
-            this.resetButton.addEventListener('click', this.reset);
+            this.resetButton.removeEventListener('click', this.reset)
+            this.resetButton.addEventListener('click', this.reset)
         }
         this._checkValidity()
     }
     connectedCallback() {
-        const slot = this.shadowRoot.querySelector('slot')
-        slot.addEventListener('slotchange', this.elementsChanged)
-        this.addEventListener('input', this.debounce(this._checkValidity, 100));
-        this.addEventListener('keydown', this.debounce(this.handleKeydown, 100));
+        this.shadowRoot.querySelector('slot').addEventListener('slotchange', this.elementsChanged)
+        this.addEventListener('input', this.handleInput)
+        this.addEventListener('keydown', this.handleKeydown)
     }
     disconnectedCallback() {
-        this.removeEventListener('input', this.debounce(this._checkValidity, 100));
-        this.removeEventListener('keydown', this.debounce(this.handleKeydown, 100));
+        this.shadowRoot.querySelector('slot').removeEventListener('slotchange', this.elementsChanged)
+        this.removeEventListener('input', this.handleInput)
+        this.removeEventListener('keydown', this.handleKeydown)
+        this.boundSubmitButton?.removeEventListener('click', this.handleSubmitClick)
+        this.resetButton?.removeEventListener('click', this.reset)
     }
 })
 
@@ -1642,6 +1663,10 @@ customElements.define('sm-input',
             this.focusOut = this.focusOut.bind(this);
             this.fireEvent = this.fireEvent.bind(this);
             this.checkInput = this.checkInput.bind(this);
+            this.handleInput = (event) => {
+                this.checkInput(event);
+                this.fireEvent();
+            };
             this.vibrate = this.vibrate.bind(this);
         }
 
@@ -1683,10 +1708,8 @@ customElements.define('sm-input',
             return this.hasAttribute('disabled');
         }
         set disabled(value) {
-            if (value)
-                this.inputParent.classList.add('disabled');
-            else
-                this.inputParent.classList.remove('disabled');
+            if (value) this.setAttribute('disabled', '')
+            else this.removeAttribute('disabled')
         }
         get readOnly() {
             return this.hasAttribute('readonly');
@@ -1708,6 +1731,12 @@ customElements.define('sm-input',
             this._helperText = val;
         }
         get isValid() {
+            if (this.input.value === '') {
+                const emptyIsValid = !this.input.required;
+                this.feedbackText.classList.toggle('error', !emptyIsValid);
+                if (!emptyIsValid && this._errorText) this.feedbackText.textContent = this._errorText;
+                return emptyIsValid;
+            }
             if (this.input.value !== '') {
                 const _isValid = this.input.checkValidity();
                 let _customValid = true;
@@ -1722,10 +1751,7 @@ customElements.define('sm-input',
                     if (this._errorText) {
                         this.feedbackText.classList.add('error');
                         this.feedbackText.classList.remove('success');
-                        this.feedbackText.innerHTML = `
-                            <svg class="status-icon status-icon--error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
-                        ${this._errorText}
-                        `;
+                        this.feedbackText.textContent = this._errorText;
                     }
                 }
                 return (_isValid && _customValid);
@@ -1793,7 +1819,7 @@ customElements.define('sm-input',
         connectedCallback() {
             this.animate = this.hasAttribute('animate');
             this.setAttribute('role', 'textbox');
-            this.input.addEventListener('input', this.checkInput);
+            this.input.addEventListener('input', this.handleInput);
             this.clearBtn.addEventListener('click', this.reset);
         }
 
@@ -1811,7 +1837,7 @@ customElements.define('sm-input',
                     this.label.textContent = newValue;
                     this.setAttribute('aria-label', newValue);
                 }
-                else if (this.hasAttribute('value')) {
+                else if (name === 'value') {
                     this.checkInput();
                 }
                 else if (name === 'type') {
@@ -1860,7 +1886,7 @@ customElements.define('sm-input',
             }
         }
         disconnectedCallback() {
-            this.input.removeEventListener('input', this.checkInput);
+            this.input.removeEventListener('input', this.handleInput);
             this.clearBtn.removeEventListener('click', this.reset);
         }
     })
@@ -2022,6 +2048,7 @@ customElements.define('sm-menu', class extends HTMLElement {
                     this.isOpen = true
                     this.icon.classList.add('focused')
                     this.setAttribute('aria-expanded', 'true')
+                    if (!this.hasAttribute('open')) this.setAttribute('open', '')
                 }
         }
     }
@@ -2042,6 +2069,7 @@ customElements.define('sm-menu', class extends HTMLElement {
                     this.icon.classList.remove('focused')
                     this.optionList.classList.add('hide')
                     this.setAttribute('aria-expanded', 'false')
+                    if (this.hasAttribute('open')) this.removeAttribute('open')
                 }
         }
     }
@@ -2053,6 +2081,12 @@ customElements.define('sm-menu', class extends HTMLElement {
         }
     }
     handleKeyDown(e) {
+        if (e.code === 'Escape' && this.isOpen) {
+            e.preventDefault()
+            this.collapse()
+            this.menu.focus()
+            return
+        }
         // If key is pressed on menu button
         if (e.target === this) {
             if (e.code === 'ArrowDown') {
@@ -3603,29 +3637,42 @@ customElements.define('sm-select', class extends HTMLElement {
         this.selectedOptionText = this.shadowRoot.querySelector('.selected-option-text')
     }
     static get observedAttributes() {
-        return ['disabled', 'label']
+        return ['disabled', 'label', 'value']
     }
     get value() {
         return this.getAttribute('value')
     }
     set value(val) {
-        this.setAttribute('value', val)
+        const nextValue = val == null ? '' : String(val)
+        this.setAttribute('value', nextValue)
+        if (this.availableOptions) this.syncValue(nextValue)
+    }
+
+    syncValue(value, fire = false) {
+        const options = this.availableOptions || Array.from(this.children).filter(option => option.localName === 'sm-option')
+        if (!options.length) return
+        const requested = value == null ? null : String(value)
+        const option = options.find(item => item.getAttribute('value') === requested)
+            || options.find(item => item.hasAttribute('selected'))
+            || options.find(item => !item.hasAttribute('disabled'))
+        if (!option) {
+            this.previousOption?.classList.remove('check-selected')
+            this.previousOption = null
+            this.selectedOptionText.textContent = ''
+            return
+        }
+        const changed = this.previousOption !== option
+        this.previousOption?.classList.remove('check-selected')
+        option.classList.add('check-selected')
+        this.previousOption = option
+        const optionValue = option.getAttribute('value') ?? option.textContent.trim()
+        if (this.getAttribute('value') !== optionValue) this.setAttribute('value', optionValue)
+        this.selectedOptionText.textContent = `${this.label}${option.textContent.trim()}`
+        if (fire && changed) this.fireEvent()
     }
 
     reset(fire = true) {
-        if (this.availableOptions[0] && this.previousOption !== this.availableOptions[0]) {
-            const firstElement = this.availableOptions[0];
-            if (this.previousOption) {
-                this.previousOption.classList.remove('check-selected')
-            }
-            firstElement.classList.add('check-selected')
-            this.value = firstElement.getAttribute('value')
-            this.selectedOptionText.textContent = `${this.label}${firstElement.textContent}`
-            this.previousOption = firstElement;
-            if (fire) {
-                this.fireEvent()
-            }
-        }
+        this.syncValue(this.getAttribute('value'), fire)
     }
 
     focusIn() {
@@ -3683,16 +3730,12 @@ customElements.define('sm-select', class extends HTMLElement {
         }
     }
     handleOptionSelection(e) {
-        if (this.previousOption !== document.activeElement) {
-            this.value = document.activeElement.getAttribute('value')
-            this.selectedOptionText.textContent = `${this.label}${document.activeElement.textContent}`;
-            this.fireEvent()
-            if (this.previousOption) {
-                this.previousOption.classList.remove('check-selected')
-            }
-            document.activeElement.classList.add('check-selected')
-            this.previousOption = document.activeElement
-        }
+        const option = e?.target?.closest?.('sm-option')
+            || (document.activeElement?.localName === 'sm-option' ? document.activeElement : null)
+        if (!option || option.hasAttribute('disabled') || this.previousOption === option) return
+        this.value = option.getAttribute('value') ?? option.textContent.trim()
+        this.syncValue(this.value)
+        this.fireEvent()
     }
     handleClick(e) {
         if (e.target === this) {
@@ -3737,7 +3780,8 @@ customElements.define('sm-select', class extends HTMLElement {
         let slot = this.shadowRoot.querySelector('slot')
         slot.addEventListener('slotchange', e => {
             this.availableOptions = slot.assignedElements()
-            this.reset(false)
+            const selected = this.availableOptions.find(option => option.hasAttribute('selected'))
+            this.syncValue(this.hasAttribute('value') ? this.getAttribute('value') : selected?.getAttribute('value'), false)
         });
         this.addEventListener('click', this.handleClick)
         this.addEventListener('keydown', this.handleKeydown)
@@ -3748,7 +3792,7 @@ customElements.define('sm-select', class extends HTMLElement {
         this.removeEventListener('keydown', this.handleKeydown)
         document.removeEventListener('mousedown', this.handleClickOutside)
     }
-    attributeChangedCallback(name) {
+    attributeChangedCallback(name, oldValue, newValue) {
         if (name === "disabled") {
             if (this.hasAttribute('disabled')) {
                 this.selection.removeAttribute('tabindex')
@@ -3757,6 +3801,9 @@ customElements.define('sm-select', class extends HTMLElement {
             }
         } else if (name === 'label') {
             this.label = this.hasAttribute('label') ? `${this.getAttribute('label')} ` : ''
+            if (this.previousOption) this.selectedOptionText.textContent = `${this.label}${this.previousOption.textContent.trim()}`
+        } else if (name === 'value' && this.availableOptions) {
+            this.syncValue(newValue, false)
         }
     }
 })
@@ -4337,114 +4384,108 @@ smTabHeader.innerHTML = `
 customElements.define('sm-tab-header', class extends HTMLElement {
     constructor() {
         super()
-        this.attachShadow({
-            mode: 'open'
-        }).append(smTabHeader.content.cloneNode(true))
-
-        this.prevTab
-        this.allTabs
-        this.activeTab
-
-        this.indicator = this.shadowRoot.querySelector('.indicator');
-        this.tabSlot = this.shadowRoot.querySelector('slot');
-        this.tabHeader = this.shadowRoot.querySelector('.tab-header');
-
+        this.attachShadow({ mode: 'open' }).append(smTabHeader.content.cloneNode(true))
+        this.allTabs = []
+        this.activeTab = null
+        this.indicator = this.shadowRoot.querySelector('.indicator')
+        this.tabSlot = this.shadowRoot.querySelector('slot')
+        this.tabHeader = this.shadowRoot.querySelector('.tab-header')
         this.changeTab = this.changeTab.bind(this)
         this.handleClick = this.handleClick.bind(this)
+        this.handleKeyDown = this.handleKeyDown.bind(this)
         this.handlePanelChange = this.handlePanelChange.bind(this)
         this.moveIndiactor = this.moveIndiactor.bind(this)
+        this.handleSlotChange = this.handleSlotChange.bind(this)
     }
-
     fireEvent(index) {
-        this.dispatchEvent(
-            new CustomEvent(`switchedtab${this.target}`, {
-                bubbles: true,
-                detail: {
-                    index: parseInt(index)
-                }
-            })
-        )
+        if (!this.target) return
+        this.dispatchEvent(new CustomEvent(`switchedtab${this.target}`, {
+            bubbles: true,
+            composed: true,
+            detail: { index: Number.parseInt(index, 10) }
+        }))
     }
-
     moveIndiactor(tabDimensions) {
+        if (!tabDimensions?.width) return
         this.indicator.setAttribute('style', `width: ${tabDimensions.width}px; transform: translateX(${tabDimensions.left - this.tabHeader.getBoundingClientRect().left + this.tabHeader.scrollLeft}px)`)
     }
-
-
-    changeTab(target) {
-        if (target === this.prevTab || !target.closest('sm-tab'))
-            return
-        if (this.prevTab)
-            this.prevTab.classList.remove('active')
-        target.classList.add('active')
-
-        this.tabHeader.scrollTo({
-            behavior: 'smooth',
-            left: target.getBoundingClientRect().left - this.tabHeader.getBoundingClientRect().left + this.tabHeader.scrollLeft
+    handleSlotChange() {
+        this.allTabs = this.tabSlot.assignedElements().filter(tab => tab.localName === 'sm-tab')
+        this.allTabs.forEach((tab, index) => {
+            tab.dataset.index = String(index)
+            tab.setAttribute('role', 'tab')
+            tab.setAttribute('aria-selected', 'false')
+            tab.tabIndex = -1
+            if (this.target) tab.setAttribute('aria-controls', this.target)
         })
-        this.moveIndiactor(target.getBoundingClientRect())
-        this.prevTab = target;
-        this.activeTab = target;
-    }
-    handleClick(e) {
-        if (e.target.closest('sm-tab')) {
-            this.changeTab(e.target)
-            this.fireEvent(e.target.dataset.index)
+        const initial = this.allTabs.find(tab => tab.hasAttribute('selected')) || this.allTabs[0]
+        if (initial) {
+            this.changeTab(initial)
+            if (this.target) this.fireEvent(initial.dataset.index)
         }
     }
-
-    handlePanelChange(e) {
-        this.changeTab(this.allTabs[e.detail.index])
+    changeTab(target) {
+        if (!target || target.hasAttribute('disabled') || !this.allTabs.includes(target)) return
+        if (this.activeTab === target) return
+        this.activeTab?.classList.remove('active')
+        this.activeTab?.setAttribute('aria-selected', 'false')
+        if (this.activeTab) this.activeTab.tabIndex = -1
+        target.classList.add('active')
+        target.setAttribute('aria-selected', 'true')
+        target.tabIndex = 0
+        this.activeTab = target
+        this.tabHeader.scrollTo({ behavior: 'smooth', left: target.getBoundingClientRect().left - this.tabHeader.getBoundingClientRect().left + this.tabHeader.scrollLeft })
+        this.moveIndiactor(target.getBoundingClientRect())
     }
-
+    handleClick(event) {
+        const tab = event.target.closest?.('sm-tab')
+        if (!tab || tab.hasAttribute('disabled')) return
+        const previous = this.activeTab
+        this.changeTab(tab)
+        if (previous !== tab) this.fireEvent(tab.dataset.index)
+    }
+    handleKeyDown(event) {
+        const tab = event.target.closest?.('sm-tab')
+        if (!tab || !this.allTabs.length) return
+        const enabledTabs = this.allTabs.filter(item => !item.hasAttribute('disabled'))
+        const index = enabledTabs.indexOf(tab)
+        if (index < 0) return
+        let nextIndex = null
+        if (event.key === 'ArrowRight') nextIndex = (index + 1) % enabledTabs.length
+        else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + enabledTabs.length) % enabledTabs.length
+        else if (event.key === 'Home') nextIndex = 0
+        else if (event.key === 'End') nextIndex = enabledTabs.length - 1
+        if (nextIndex === null) return
+        event.preventDefault()
+        const nextTab = enabledTabs[nextIndex]
+        this.changeTab(nextTab)
+        nextTab.focus()
+        this.fireEvent(nextTab.dataset.index)
+    }
+    handlePanelChange(event) {
+        this.changeTab(this.allTabs[event.detail.index])
+    }
     connectedCallback() {
-        if (!this.hasAttribute('target') || this.getAttribute('target').value === '') return;
-        this.target = this.getAttribute('target')
-
-        this.tabSlot.addEventListener('slotchange', () => {
-            this.allTabs = this.tabSlot.assignedElements();
-            this.allTabs.forEach((tab, index) => {
-                tab.dataset.index = index
-            })
-        })
-
+        this.target = this.getAttribute('target') || ''
+        this.setAttribute('role', 'tablist')
+        this.tabSlot.addEventListener('slotchange', this.handleSlotChange)
         this.addEventListener('click', this.handleClick)
-        document.addEventListener(`switchedpanel${this.target}`, this.handlePanelChange)
-
-        let resizeObserver = new ResizeObserver(entries => {
-            entries.forEach((entry) => {
-                if (this.prevTab) {
-                    let tabDimensions = this.activeTab.getBoundingClientRect();
-                    this.moveIndiactor(tabDimensions)
-                }
-            })
-        })
-        resizeObserver.observe(this)
-        let observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    this.indicator.style.transition = 'none'
-                    if (this.activeTab) {
-                        let tabDimensions = this.activeTab.getBoundingClientRect();
-                        this.moveIndiactor(tabDimensions)
-                    } else {
-                        this.allTabs[0].classList.add('active')
-                        let tabDimensions = this.allTabs[0].getBoundingClientRect();
-                        this.moveIndiactor(tabDimensions)
-                        this.fireEvent(0)
-                        this.prevTab = this.tabSlot.assignedElements()[0];
-                        this.activeTab = this.prevTab;
-                    }
-                }
-            })
-        }, {
-            threshold: 1.0
-        })
-        observer.observe(this)
+        this.addEventListener('keydown', this.handleKeyDown)
+        if (this.target) document.addEventListener(`switchedpanel${this.target}`, this.handlePanelChange)
+        this.resizeObserver = new ResizeObserver(() => this.activeTab && this.moveIndiactor(this.activeTab.getBoundingClientRect()))
+        this.resizeObserver.observe(this)
+        this.intersectionObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting) && this.activeTab) this.moveIndiactor(this.activeTab.getBoundingClientRect())
+        }, { threshold: 0.1 })
+        this.intersectionObserver.observe(this)
     }
     disconnectedCallback() {
+        this.tabSlot.removeEventListener('slotchange', this.handleSlotChange)
         this.removeEventListener('click', this.handleClick)
-        document.removeEventListener(`switchedpanel${this.target}`, this.handlePanelChange)
+        this.removeEventListener('keydown', this.handleKeyDown)
+        if (this.target) document.removeEventListener(`switchedpanel${this.target}`, this.handlePanelChange)
+        this.resizeObserver?.disconnect()
+        this.intersectionObserver?.disconnect()
     }
 })
 
@@ -4575,6 +4616,10 @@ customElements.define('sm-tab-panels', class extends HTMLElement {
         this.handleTabChange = this.handleTabChange.bind(this)
     }
     handleTabChange(e) {
+        if (!this.allPanels) {
+            this.pendingTabIndex = e.detail.index
+            return
+        }
         this.isTransitioning = true
         this.panelContainer.scrollTo({
             left: this.allPanels[e.detail.index].getBoundingClientRect().left - this.panelContainer.getBoundingClientRect().left + this.panelContainer.scrollLeft,
@@ -4609,8 +4654,14 @@ customElements.define('sm-tab-panels', class extends HTMLElement {
             this.allPanels = e.target.assignedElements()
             this.allPanels.forEach((panel, index) => {
                 panel.dataset.index = index
+                panel.setAttribute('role', 'tabpanel')
                 this.intersectionObserver.observe(panel)
             })
+            if (this.pendingTabIndex !== undefined) {
+                const index = this.pendingTabIndex
+                this.pendingTabIndex = undefined
+                this.handleTabChange({ detail: { index } })
+            }
         })
         document.addEventListener(`switchedtab${this.id}`, this.handleTabChange)
     }
@@ -4654,7 +4705,6 @@ tagsInput.innerHTML = `
   }
 
   .tag {
-    cursor: pointer;
     user-select: none;
     align-items: center;
     display: inline-flex;
@@ -4663,6 +4713,17 @@ tagsInput.innerHTML = `
     margin: 0 0.5rem 0.5rem 0;
     background-color: rgba(var(--text-color), 0.06);
   }
+  .tag-remove {
+    display: inline-grid;
+    place-items: center;
+    border: 0;
+    padding: 0;
+    margin-left: 0.3rem;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+  }
+  .tag-remove:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; border-radius: 0.2rem; }
 
   .icon {
     height: 1.2rem;
@@ -4760,7 +4821,7 @@ customElements.define('tags-input', class extends HTMLElement {
             if (e.key === 'Enter' || e.key === ',' || e.key === '/' || e.code === 'Space') {
                 const tagValue = e.target.value.trim()
                 if (this.tags.has(tagValue)) {
-                    this.tagsWrapper.querySelector(`[data-value="${tagValue}"]`).animate([
+                    [...this.tagsWrapper.querySelectorAll('.tag')].find(item => item.dataset.value === tagValue)?.animate([
                         {
                             backgroundColor: 'initial'
                         },
@@ -4779,10 +4840,15 @@ customElements.define('tags-input', class extends HTMLElement {
                     const tag = document.createElement('span')
                     tag.dataset.value = tagValue
                     tag.className = 'tag'
-                    tag.innerHTML = `
-                        <span class="tag-text">${tagValue}</span>
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>
-                        `
+                    const tagText = document.createElement('span')
+                    tagText.className = 'tag-text'
+                    tagText.textContent = tagValue
+                    const removeButton = document.createElement('button')
+                    removeButton.type = 'button'
+                    removeButton.className = 'tag-remove'
+                    removeButton.setAttribute('aria-label', `Remove ${tagValue}`)
+                    removeButton.textContent = '×'
+                    tag.append(tagText, removeButton)
                     this.input.before(tag)
                     this.tags.add(tagValue)
                 }

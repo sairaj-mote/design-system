@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RanchiMall Design System</title>
+    <title>Sairaj Mote — UI/UX Designer &amp; Developer</title>
     <meta name="description"
-        content="RanchiMall Design System — a token-driven, frameworkless design system built from scratch: foundations, components, patterns, accessibility and guidelines.">
-    <link rel="stylesheet" href="tokens/tokens.css?v=a42c251b1146">
-    <link rel="stylesheet" href="css/main.css?v=01e66f24d581">
+        content="Portfolio of Sairaj Mote, a UI/UX designer and developer working across product experience, design systems and frontend implementation.">
+    <link rel="stylesheet" href="tokens/tokens.css?v=43ac5c34303b">
+    <link rel="stylesheet" href="css/main.css?v=33875a06d86b">
+    <link rel="stylesheet" href="css/portfolio-showcase.css">
+    <link rel="stylesheet" href="css/portfolio-overhaul.css?v=20261010">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -17,7 +19,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body data-theme="light">
+<body data-theme="light" class="is-portfolio">
     <a href="#overview_page" class="skip-link">Skip to content</a>
     <sm-notifications id="notification_drawer"></sm-notifications>
     <sm-popup id="confirmation_popup">
@@ -45,14 +47,27 @@
                 <span class="material-icons" aria-hidden="true">menu</span>
             </button>
             <div class="brand">
-                <span class="brand__mark" aria-hidden="true">R</span>
+                <span class="brand__mark" aria-hidden="true">S</span>
                 <span class="brand__name">
-                    RanchiMall Design System
-                    <small>v1.0.0</small>
+                    Sairaj Mote
+                    <small>UI/UX Designer &amp; Developer</small>
                 </span>
             </div>
+            <nav class="portfolio-nav" aria-label="Portfolio navigation">
+                <a href="#work">Work</a>
+                <a href="#experience">Experience</a>
+                <a href="#components_page">Design system <span class="material-icons" aria-hidden="true">north_east</span></a>
+            </nav>
+            <button class="command-trigger" id="command_button" type="button" aria-label="Search pages and components (Control K)">
+                <span class="material-icons" aria-hidden="true">search</span><span>Quick find</span><kbd>Ctrl K</kbd>
+            </button>
             <theme-toggle></theme-toggle>
         </header>
+        <dialog class="command-palette" id="command_palette" aria-label="Search the portfolio and design system">
+            <div class="command-palette__search"><span class="material-icons" aria-hidden="true">search</span><input id="command_search" type="search" placeholder="Search work, components, tokens…" autocomplete="off" aria-label="Search pages"></div>
+            <div class="command-palette__results" id="command_results" role="listbox" aria-label="Pages"></div>
+            <p class="command-palette__hint">Tab to browse · Enter to open · Esc to close · Ctrl K to search</p>
+        </dialog>
 
         <hamburger-menu id="side_nav" aria-label="Documentation navigation">
             <div id="ds-nav"></div>
@@ -61,70 +76,99 @@
         <article class="right">
             <!-- ===================== OVERVIEW ===================== -->
             <section id="overview_page" class="page">
-                <div class="hero">
-                    <div>
-                        <span class="version-badge">
-                            <span class="material-icons" aria-hidden="true" style="font-size:14px">verified</span>
-                            v1.0.0 · Built from scratch
-                        </span>
+                <div class="portfolio-hero">
+                    <div class="portfolio-hero__copy">
+                        <span class="eyebrow"><span class="eyebrow__dot"></span> UI/UX DESIGN · PRODUCT THINKING · FRONTEND</span>
+                        <h1>I design digital products and build the systems behind them.</h1>
+                        <p class="portfolio-intro">I’m Sairaj Mote, a UI/UX designer and developer with 5+ years of experience. I shape clear, accessible product experiences—and carry them from user flows through to working interface.</p>
+                        <div class="portfolio-actions">
+                            <a class="button button--primary" href="#work">Explore selected work <span class="material-icons" aria-hidden="true">arrow_downward</span></a>
+                            <a class="button button--quiet" href="https://github.com/sairaj-mote/design-system" target="_blank" rel="noopener">View GitHub <span class="material-icons" aria-hidden="true">north_east</span></a>
+                        </div>
+                        <div class="hero-proof"><span class="hero-proof__mark">✳</span><span>Design system · RanchiMall<br><strong>Currently in use there</strong></span></div>
                     </div>
-                    <h1>A design system for building web products that scale.</h1>
-                    <p class="lede">
-                        RanchiMall Design System is the token-driven, frameworkless UI system we created from the
-                        ground up. This site documents the foundations, components, patterns and guidelines that make
-                        it up — and the process we followed to design it.
-                    </p>
-                    <div class="stat-grid">
-                        <div class="stat"><span class="stat__value" id="stat-components">–</span><span
-                                class="stat__label">Native components</span></div>
-                        <div class="stat"><span class="stat__value" id="stat-tokens">–</span><span
-                                class="stat__label">Design tokens</span></div>
-                        <div class="stat"><span class="stat__value" id="stat-layouts">–</span><span
-                                class="stat__label">Page layouts</span></div>
-                        <div class="stat"><span class="stat__value" id="stat-contrast">–</span><span
-                                class="stat__label">Contrast target</span></div>
-                    </div>
-                </div>
-
-                <h2>The problem</h2>
-                <p>
-                    Every product we shipped was rebuilding the same UI by hand — new buttons, new inputs, new colors,
-                    slightly different on every screen. The result was inconsistent, slow to build, and painful to
-                    maintain. We needed a shared language between design and engineering, with no framework lock-in.
-                </p>
-
-                <h2>The approach</h2>
-                <p>
-                    Instead of buying a toolkit, we designed our own. We started by auditing real screens, then
-                    extracted the primitives — colors, type, spacing, motion — into design tokens. On top of those
-                    tokens we built native Web Components, then composed them into patterns, and finally documented
-                    everything you see on this site. Nothing is hard-coded; every value traces back to a token.
-                </p>
-
-                <h2>The outcome</h2>
-                <div class="grid gap-2">
-                    <div class="card">
-                        <h3>Consistency at scale</h3>
-                        <p>Change one token and the change ripples through every component and screen. A single source
-                            of truth for the whole product.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Faster shipping</h3>
-                        <p>Designers assemble from components instead of drawing from scratch. Developers wire up
-                            ready-made, tested components.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Frameworkless freedom</h3>
-                        <p>Native Web Components run in any stack — React, Vue, vanilla or none — with encapsulated
-                            style and behaviour.</p>
+                    <div class="portfolio-art" role="img" aria-label="Abstract preview of a responsive interface and reusable design system components">
+                        <div class="art-orbit art-orbit--one"></div><div class="art-orbit art-orbit--two"></div>
+                        <div class="art-window">
+                            <div class="art-window__bar"><span></span><span></span><span></span><b>Product UI · 01</b></div>
+                            <div class="art-window__body">
+                                <div class="art-rail"><i></i><i></i><i></i><i></i></div>
+                                <div class="art-content"><div class="art-kicker"></div><div class="art-title"></div><div class="art-copy"></div><div class="art-copy art-copy--short"></div><div class="art-button"></div><div class="art-cards"><i></i><i></i><i></i></div></div>
+                            </div>
+                        </div>
+                        <div class="art-float art-float--tokens"><b>Color system</b><span><i></i><i></i><i></i><i></i><i></i></span><small>Tokens · Components · Patterns</small></div>
+                        <div class="art-float art-float--access"><span class="material-icons" aria-hidden="true">check_circle</span><b>Accessible by design</b></div>
+                        <span class="art-caption">UX thinking meets frontend craft</span>
                     </div>
                 </div>
 
-                <footer>
-                    <strong>Continue:</strong> read the <a href="#principles_page">design principles</a>, explore the
-                    <a href="#color_page">foundations</a>, or jump into the <a href="#components_page">component
-                        library</a>.
-                </footer>
+                <div class="portfolio-facts" aria-label="Design system highlights">
+                    <div><strong>5+</strong><span>years in design</span></div>
+                    <div><strong id="stat-components">–</strong><span>reusable components</span></div>
+                    <div><strong id="stat-tokens">–</strong><span>design tokens</span></div>
+                    <div><strong>17</strong><span>products worked on</span></div>
+                    <a href="#process_page">Explore the system structure <span class="material-icons" aria-hidden="true">north_east</span></a>
+                </div>
+
+                <section id="work" class="portfolio-section">
+                    <div class="section-heading"><div><span class="eyebrow">SELECTED WORK · 01</span><h2>A design system made for real product work.</h2></div><p>From inconsistent interfaces to a shared, working library that connects UX decisions to production-ready UI.</p></div>
+                    <a class="project-card" href="#process_page">
+                        <div class="project-card__art" aria-hidden="true"><div class="project-board"><div class="project-board__head"><span>RM / Design system</span><span>Foundations</span></div><div class="project-board__type">A more consistent<br><em>product experience.</em></div><div class="project-swatches"><i></i><i></i><i></i><i></i><i></i></div><div class="project-components"><span>Button</span><span>Input</span><span>Navigation</span><span>Feedback</span></div></div><span class="project-card__stamp">LIVE<br>IN PRODUCT</span></div>
+                        <div class="project-card__body"><div class="project-card__meta"><span>RanchiMall</span><span>Product design · Design system · Frontend</span></div><h3>RanchiMall Design System</h3><p>I designed and developed the foundations, reusable components and guidance. The system is currently in use at RanchiMall.</p><span class="project-card__link">Explore the case study <span class="material-icons" aria-hidden="true">arrow_forward</span></span></div>
+                    </a>
+                </section>
+
+                <section id="product-work" class="portfolio-section portfolio-products" aria-labelledby="portfolio-products-title">
+                    <div class="section-heading"><div><span class="eyebrow">PRODUCT WORK · 17 PRODUCTS</span><h2 id="portfolio-products-title">A wider range of product work.</h2></div><p>I worked on these RanchiMall products across finance, identity, content, social, management, blockchain explorers, and wallets.</p></div>
+                    <div class="product-work-grid">
+                    <article class="product-work-card"><span class="product-work-card__type">Blockchain Explorer</span><h3>Blockbook</h3><p>A blockchain explorer for FLO.</p><a href="https://blockbook.ranchimall.net/" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Finance</span><h3>Blockchain Bonds</h3><p>Monitor Bitcoin bonds performance.</p><a href="https://ranchimall.github.io/blockchainbonds" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Finance</span><h3>Bob’s Fund</h3><p>A Bitcoin fund with profit sharing.</p><a href="https://ranchimall.github.io/bobsfund" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Finance</span><h3>BTC Mortgage</h3><p>Borrow or lend USD against Bitcoin.</p><a href="https://ranchimall.github.io/btcmortgage" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Identity</span><h3>Certify</h3><p>Create and distribute blockchain-based certificates.</p><a href="https://ranchimall.github.io/certify" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Content</span><h3>Content Collaboration</h3><p>A collaborative writing app.</p><a href="https://ranchimall.github.io/cc" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Finance</span><h3>Exchange</h3><p>Trade FLO and FLO tokens with rupee tokens.</p><a href="https://ranchimall.github.io/exchangemarket" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Blockchain Explorer</span><h3>FLO Scout</h3><p>Track FLO token transactions and smart contracts.</p><a href="https://ranchimall.github.io/floscout" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Wallet</span><h3>BTC Wallet</h3><p>Send and receive Bitcoin; track transactions.</p><a href="https://ranchimall.github.io/btcwallet" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Wallet</span><h3>FLO Wallet</h3><p>A wallet for FLO.</p><a href="https://ranchimall.github.io/flowallet" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Finance</span><h3>ICO Exchange</h3><p>An exchange for ICO token trading.</p><a href="https://ranchimall.net/exchange" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Finance</span><h3>Intern Payments</h3><p>View payments made to interns.</p><a href="https://ranchimall.github.io/ribcpayments" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Identity</span><h3>KYC</h3><p>An app for identity verification.</p><a href="https://ranchimall.github.io/kyc" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Content</span><h3>LogSheet</h3><p>Create and manage public or private log sheets.</p><a href="https://ranchimall.github.io/flologsheet" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Social</span><h3>Messenger</h3><p>Chat across Bitcoin, Ethereum, and FLO.</p><a href="https://ranchimall.github.io/messenger" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Content</span><h3>RanchiMall Times</h3><p>Articles created through Content Collaboration.</p><a href="https://ranchimall.github.io/rmtimes" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    <article class="product-work-card"><span class="product-work-card__type">Management</span><h3>RIBC</h3><p>Hire and manage interns.</p><a href="https://ranchimall.github.io/ribc" target="_blank" rel="noopener noreferrer">View product <span class="material-icons" aria-hidden="true">north_east</span></a></article>
+                    </div>
+                    <p class="product-work-source">Product list and descriptions from <a href="https://ranchimall.github.io/dapps/" target="_blank" rel="noopener noreferrer">RanchiMall Dapps</a>.</p>
+                </section>
+
+                <section class="system-preview" aria-labelledby="system-preview-title">
+                    <div class="system-preview__canvas" data-preview-theme="light">
+                        <div class="system-preview__top"><span>LIVE COMPONENT PREVIEW</span><span class="system-preview__status">Tokens connected</span></div>
+                        <div class="system-preview__controls"><button class="preview-primary" type="button">Create project <span class="material-icons" aria-hidden="true">north_east</span></button><button class="preview-secondary" type="button">View details</button><button class="preview-quiet" type="button">Learn more</button></div>
+                        <p class="system-preview__feedback" id="preview_feedback" aria-live="polite" hidden></p>
+                        <label class="system-preview__field">Workspace name<input type="text" value="Product design system" aria-label="Workspace name sample"></label>
+                        <div class="system-preview__swatches" aria-label="Core brand color palette"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                    <div class="system-preview__copy"><span class="eyebrow">BUILT TO BE USED</span><h2 id="system-preview-title">One system. A more coherent product.</h2><p>Shared foundations, purposeful components and practical guidance turn individual interface decisions into a consistent experience.</p><button class="button button--quiet" id="preview_theme_toggle" type="button" aria-pressed="false">Switch to dark</button><a class="system-preview__link" href="#components_page">Explore the system <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div>
+                </section>
+
+                <section class="portfolio-section portfolio-section--capabilities">
+                    <div class="section-heading"><div><span class="eyebrow">HOW I WORK</span><h2>Design with intent. Build with care.</h2></div><p>I move between user needs, interface decisions and implementation to keep the experience coherent all the way through.</p></div>
+                    <div class="capability-list">
+                        <div><span>01</span><h3>Understand the problem</h3><p>Frame user needs, constraints and the job the product needs to do.</p></div>
+                        <div><span>02</span><h3>Shape the experience</h3><p>Map journeys, information hierarchy, interaction patterns and responsive behavior.</p></div>
+                        <div><span>03</span><h3>Make it a system</h3><p>Turn repeatable decisions into tokens, components and useful guidance.</p></div>
+                        <div><span>04</span><h3>Bring it to life</h3><p>Implement, refine and check real interface states, accessibility and edge cases.</p></div>
+                    </div>
+                </section>
+
+                <section id="experience" class="portfolio-section portfolio-experience">
+                    <div class="section-heading"><div><span class="eyebrow">EXPERIENCE</span><h2>Product work at RanchiMall.</h2></div><p>UI/UX design and development, with design-system work that continues to be used by the team.</p></div>
+                    <div class="experience-row"><div><span class="experience-row__pin"></span><div><h3>RanchiMall</h3><p>UI/UX design &amp; development</p></div></div><a href="#work" aria-label="View RanchiMall design system case study">View featured work <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div>
+                </section>
+
+                <footer class="portfolio-footer"><span>Have a product challenge in mind?</span><div class="portfolio-footer__social"><a href="https://www.linkedin.com/in/sairaj-mote" target="_blank" rel="noopener">Connect on LinkedIn <span class="material-icons" aria-hidden="true">north_east</span></a><a href="https://github.com/sairaj-mote" target="_blank" rel="noopener">View GitHub <span class="material-icons" aria-hidden="true">north_east</span></a></div><p>More about the work: <a href="#principles_page">principles</a>, <a href="#components_page">components</a>, <a href="#accessibility_page">accessibility</a>, <a href="#resources_page">resources</a>.</p></footer>
             </section>
 
             <!-- ===================== PRINCIPLES ===================== -->
@@ -138,65 +182,29 @@
             </section>
 
             <!-- ===================== PROCESS ===================== -->
-            <section id="process_page" class="page hide-completely">
-                <h1 class="page__title">How it was designed from scratch</h1>
-                <p>
-                    Building a design system isn't about designing components — it's about designing a <em>process</em>
-                    for making consistent decisions. Here is the six-phase process we followed, in the order we
-                    followed it.
-                </p>
-
-                <div class="timeline">
-                    <div class="timeline__item">
-                        <span class="tl-tag">Phase 1 · Discover</span>
-                        <h2>Audit the product</h2>
-                        <p>We catalogued every screen, interaction and stray style across our apps. We photographed
-                            inconsistencies, counted the duplicates, and collected the raw material the system would
-                            have to absorb.</p>
-                    </div>
-                    <div class="timeline__item">
-                        <span class="tl-tag">Phase 2 · Extract</span>
-                        <h2>Tokenize the primitives</h2>
-                        <p>From the audit we pulled the true primitives — the handful of colors, type sizes, spacing
-                            values and radii that everything else was a variation of. These became our first design
-                            tokens.</p>
-                    </div>
-                    <div class="timeline__item">
-                        <span class="tl-tag">Phase 3 · Found</span>
-                        <h2>Build the foundations</h2>
-                        <p>We turned raw values into scales with names and roles: a color ramp with a base step, a type
-                            ramp with clear hierarchy, a 4px spacing scale, radii, elevations and motion durations.</p>
-                    </div>
-                    <div class="timeline__item">
-                        <span class="tl-tag">Phase 4 · Compose</span>
-                        <h2>Componentize</h2>
-                        <p>With foundations in place we built native Web Components — buttons, inputs, popups,
-                            notifications — each consuming tokens and each self-contained, style and behaviour
-                            included.</p>
-                    </div>
-                    <div class="timeline__item">
-                        <span class="tl-tag">Phase 5 · Assemble</span>
-                        <h2>Compose patterns</h2>
-                        <p>Components alone don't make a product. We composed them into repeatable patterns — forms,
-                            navigation, feedback, empty states — the building blocks of real screens.</p>
-                    </div>
-                    <div class="timeline__item">
-                        <span class="tl-tag">Phase 6 · Govern</span>
-                        <h2>Document &amp; govern</h2>
-                        <p>Finally we documented everything: the tokens, the components, the dos and don'ts, and the
-                            accessibility rules you're reading now. Governance keeps the system honest as products grow.
-                        </p>
-                    </div>
+            <section id="process_page" class="page hide-completely process-story">
+                <header class="process-story__intro">
+                    <span class="eyebrow"><span class="eyebrow__dot"></span> THE SYSTEM · FROM PRODUCT TO PROOF</span>
+                    <h1 class="page__title">One system. Seventeen product contexts.</h1>
+                    <p>Finance, identity, content, social and blockchain tools each ask for different interface decisions. This is how I connect those decisions to a shared, inspectable UI foundation.</p>
+                </header>
+                <div class="process-map" aria-label="A visual map from product contexts through tokens, components and patterns to working product UI">
+                    <div class="process-map__node process-map__node--products"><span class="material-icons" aria-hidden="true">apps</span><strong>17</strong><small>product contexts</small><div class="process-map__chips"><i>Finance</i><i>Identity</i><i>Content</i><i>Social</i><i>Web3</i></div></div>
+                    <span class="process-map__link" aria-hidden="true"><span class="material-icons">arrow_forward</span></span>
+                    <div class="process-map__node"><span class="material-icons" aria-hidden="true">palette</span><strong>97</strong><small>shared tokens</small><div class="process-map__swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <span class="process-map__link" aria-hidden="true"><span class="material-icons">arrow_forward</span></span>
+                    <div class="process-map__node"><span class="material-icons" aria-hidden="true">widgets</span><strong>26</strong><small>reusable components</small><div class="process-map__controls" aria-hidden="true"><i></i><i></i><i></i></div></div>
+                    <span class="process-map__link" aria-hidden="true"><span class="material-icons">arrow_forward</span></span>
+                    <div class="process-map__node process-map__node--live"><span class="material-icons" aria-hidden="true">task_alt</span><strong>In use</strong><small>at RanchiMall</small><div class="process-map__live-line"><i></i><i></i><i></i></div></div>
                 </div>
-
-                <div class="card">
-                    <h2>The key insight</h2>
-                    <p>
-                        The hardest part wasn't creating the system — it was <em>stopping</em> at the right level of
-                        abstraction. Too granular and tokens become noise; too coarse and they stop being useful. Every
-                        token and component on this site earns its place by being used in more than one product.
-                    </p>
+                <p class="process-story__caption"><span class="material-icons" aria-hidden="true">account_tree</span> Product needs become shared rules; shared rules become working interface.</p>
+                <div class="process-chapters" aria-label="How the design system fits together">
+                    <article class="process-chapter"><div class="process-chapter__visual process-chapter__visual--tokens" aria-hidden="true"><span class="material-icons">tune</span><i></i><i></i><i></i><b>color</b><b>type</b><b>space</b></div><div class="process-chapter__copy"><span class="process-chapter__step">01 / FOUNDATIONS</span><h2>Set the shared rules</h2><p>Color, type, spacing, shape and motion are named once, so screens can share decisions instead of approximating them.</p><a href="#color_page">Explore the foundations <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div></article>
+                    <article class="process-chapter"><div class="process-chapter__visual process-chapter__visual--components" aria-hidden="true"><span class="material-icons">widgets</span><div><i>Button</i><i>Input</i><i>Switch</i><i>Dialog</i></div></div><div class="process-chapter__copy"><span class="process-chapter__step">02 / COMPONENTS</span><h2>Turn rules into real controls</h2><p>Reusable elements carry their own styling and behavior, with documented states and properties that can be inspected.</p><a href="#components_page">Browse the components <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div></article>
+                    <article class="process-chapter"><div class="process-chapter__visual process-chapter__visual--patterns" aria-hidden="true"><span class="material-icons">view_quilt</span><div class="process-mini-form"><i></i><i></i><b></b></div><div class="process-mini-toast"><span class="material-icons">check_circle</span> Saved</div></div><div class="process-chapter__copy"><span class="process-chapter__step">03 / PATTERNS</span><h2>Show how pieces work together</h2><p>Patterns compose controls into familiar tasks—like a form that gathers information and confirms completion.</p><a href="#patterns_page">See the patterns <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div></article>
+                    <article class="process-chapter"><div class="process-chapter__visual process-chapter__visual--contract" aria-hidden="true"><span class="material-icons">rule</span><div><i>Source</i><span class="material-icons">arrow_forward</span><i>Build</i><span class="material-icons">arrow_forward</span><i>Docs</i></div><b><span class="material-icons">check</span> Verified</b></div><div class="process-chapter__copy"><span class="process-chapter__step">04 / CONTRACT</span><h2>Keep the example tied to implementation</h2><p>Source, generated files and documentation have defined roles. Verification checks the inventory and keeps those artifacts in step.</p><a href="#resources_page">Inspect resources <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div></article>
                 </div>
+                <aside class="process-story__closing"><span class="material-icons" aria-hidden="true">domain</span><p><strong>Built for product work.</strong> This system is currently used at RanchiMall, across the products shown in the Work section.</p><a href="#work">View the work <span class="material-icons" aria-hidden="true">north_east</span></a></aside>
             </section>
 
             <!-- ===================== COLOR ===================== -->
@@ -362,15 +370,24 @@
             </section>
 
             <!-- ===================== COMPONENTS ===================== -->
-            <section id="components_page" class="page hide-completely">
-                <h1 class="page__title">Component library</h1>
-                <p>
-                    The library is built from native Web Components — self-contained elements with encapsulated style
-                    and behaviour that work in any framework (or none). Browse by category, then open the full
-                    component documentation for anatomy, states, variants and CSS variables.
-                </p>
-                <div id="ds-comp-filters" class="chip-row"></div>
-                <div id="ds-comp-grid" class="comp-grid"></div>
+            <section id="components_page" class="page hide-completely component-library">
+                <header class="component-library__intro">
+                    <span class="eyebrow"><span class="eyebrow__dot"></span> DESIGN SYSTEM / COMPONENTS</span>
+                    <h1 class="page__title">A library built to be explored.</h1>
+                    <p>A shared library of 21 standalone components and five composition parts. Open a spec to try its live demo, inspect states and API, and copy implementation-ready markup.</p>
+                    <div class="component-library__facts" aria-label="Component inventory">
+                        <span><strong>26</strong> registered elements</span><span><strong>21</strong> standalone components</span><span><strong>5</strong> composition parts</span>
+                    </div>
+                </header>
+                <section class="component-catalog" aria-labelledby="component-catalog-title">
+                    <div class="component-catalog__heading"><div><span class="eyebrow">THE LIBRARY</span><h2 id="component-catalog-title">Find a component</h2></div><p>Choose a category or search by name, tag or purpose.</p></div>
+                    <div class="component-catalog__toolbar">
+                        <label class="component-search"><span class="material-icons" aria-hidden="true">search</span><input id="component_search" type="search" placeholder="Search components…" autocomplete="off"><span class="sr-only">Search components by name, tag or purpose</span></label>
+                        <div id="ds-comp-filters" class="chip-row" role="group" aria-label="Filter components by category"></div>
+                        <p id="component_result_count" class="component-result-count" role="status" aria-live="polite"></p>
+                    </div>
+                    <div id="ds-comp-grid" class="comp-grid" role="list" aria-labelledby="component-catalog-title"></div>
+                </section>
 
                 <h2>See the components live</h2>
                 <p>Every component in this system renders on <a href="../components/index.html" target="_blank"
@@ -415,10 +432,9 @@
             <section id="practice_page" class="page hide-completely">
                 <h1 class="page__title">Design practice</h1>
                 <p>
-                    A component library is only useful when it improves the experience. This is the working lens behind
-                    RanchiMall: understand the job, make the state legible, test the edges, and leave a clear contract
-                    for
-                    the next person who builds on it.
+                    A component library is only useful when it improves the experience. My working lens is to
+                    understand the job, make each state legible, test the edges, and leave a clear contract for the
+                    next person who builds on it.
                 </p>
 
                 <h2>From problem to product</h2>
@@ -516,12 +532,13 @@
                     <h3 class="demo__title">Forms with inline validation</h3>
                     <p class="demo__desc">Wrapped in <code>sm-form</code> so validation is consistent; submit is a
                         primary button.</p>
-                    <sm-form>
+                    <sm-form id="pattern_signup_form">
                         <sm-input placeholder="Email" type="email" error-text="Please enter a valid email" required
                             animate></sm-input>
                         <sm-input placeholder="Password" type="password" required animate></sm-input>
                         <sm-button variant="primary" type="submit">Create account</sm-button>
                     </sm-form>
+                    <p class="demo__desc">Local interaction demo only; no account is created and no data is sent.</p>
                 </div>
 
                 <div class="demo">
@@ -729,18 +746,22 @@
                 </ol>
 
                 <footer>
-                    <strong>RanchiMall Design System v1.0.0</strong> · Designed and built from scratch by the portfolio
-                    author · <a href="../README.md">Project readme <span class="material-icons link-icon"
+                    <strong>Sairaj Mote · Design System Portfolio</strong> · <a href="../README.md">Project readme <span class="material-icons link-icon"
                             aria-hidden="true">open_in_new</span></a>
                 </footer>
             </section>
         </article>
     </main>
 
-    <script src="js/tokens-runtime.js?v=a42c251b1146"></script>
-    <script src="js/components.js?v=178d54e4d321"></script>
-    <script src="js/docs-runtime.js?v=057fa9e354c0"></script>
-    <script src="js/design-system.js?v=10f78853cf46"></script>
+    <script src="js/tokens-runtime.js?v=43ac5c34303b"></script>
+    <script src="js/components.js?v=de131477e094"></script>
+    <script src="../components/assets/prism.js"></script>
+    <script src="js/docs-runtime.js?v=a5b92a08e314"></script>
+    <script src="js/design-system.js?v=986f196926c1"></script>
+    <script src="js/portfolio-interactions.js?v=20261002"></script>
+    <script src="js/component-test-runner.js"></script>
 </body>
 
 </html>
+
+

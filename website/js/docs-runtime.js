@@ -116,6 +116,9 @@
         document.querySelectorAll('.popup__header__close, .close-popup-on-click').forEach(element => {
             element.addEventListener('click', () => closePopup());
         });
+        getRef('pattern_signup_form')?.addEventListener('submit', () => {
+            notify('Form submitted locally. No data was sent.', 'success');
+        });
     });
 
     window.getRef = getRef;

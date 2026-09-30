@@ -1,0 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+const root = path.resolve(__dirname, '..');
+const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+const checks = [];
+const check = (name, ok, detail = '') => checks.push({ name, ok, detail });
+const docs = read('website/js/design-system.js');
+const browserTests = read('website/js/component-test-runner.js');
+const index = read('website/index.html');
+const css = read('website/css/main.css');
+const source = read('components/components.js');
+const bundle = read('website/js/components.js');
+
+const definitionCount = [...source.matchAll(/(?:window\.)?customElements\.define\(['"]([^'"]+)/g)].length;
+const sourceHash = bundle.match(/component-source-sha256: ([a-f\d]+)/)?.[1];
+check('All component definitions are represented in the generated website bundle', definitionCount > 0 && sourceHash && bundle.includes(sourceHash), `${definitionCount} definitions`);
+check('Component specs are made available to runtime audit tooling', docs.includes('window.RMDS_COMPONENT_SPECS = specs'));
+check('Every spec gets a structure diagram parsed from its actual markup', docs.includes('new DOMParser().parseFromString(spec.demo') && docs.includes('componentStructureHTML(s)'));
+check('Generic placeholder anatomy has been removed', !docs.includes("{ label: 'Feedback layer', note:"));
+check('Runtime attributes and prototype members are introspected', docs.includes('Component.observedAttributes') && docs.includes('Object.getOwnPropertyNames(prototype)'));
+check('Code samples are escaped before highlighting', docs.includes('class="language-markup">${esc(s.demo)}</code>'));
+check('Copy uses rendered text rather than syntax spans', docs.includes("querySelector('code')?.textContent"));
+check('Prism markup grammar is included before the spec renderer', index.includes('../components/assets/prism.js') && index.indexOf('../components/assets/prism.js') < index.indexOf('js/design-system.js'));
+check('Accessible responsive structure and API styles are present', css.includes('.structure-tree--root') && css.includes('.spec-runtime-api') && css.includes('@media (max-width: 640px)'));
+check('Opt-in browser suite covers each spec’s markup, structure, API, variants and states', ['copy sample matches source', 'structure tag sequence matches demo', 'runtime API inventory displayed', 'variants are rendered', 'states are rendered'].every(text => browserTests.includes(text)));
+check('Browser suite exercises representative pointer and keyboard-sensitive controls', ['Button', 'Checkbox', 'Switch', 'Radio', 'Select', 'Textarea value', 'Input value', 'Form invalid guard', 'Menu open state', 'Carousel controls', 'Tags input value', 'Tags input escapes user content', 'Select pointer option', 'Select property sync', 'Valid form submit once', 'Menu Escape closes and restores focus', 'Popup show and hide', 'Notification announces status', 'Input disabled property sync', 'Required empty input is invalid', 'Input error text is rendered as text', 'Tags remove button', 'File input filename is rendered as text', 'File input disabled property sync', 'Tabs arrow navigation', 'Tabs linked panels'].every(text => browserTests.includes(`testInteraction('${text}'`)));
+check('Tabs spec demonstrates connected panels', browserTests.includes("tabsSpec.demo.includes('<sm-tab-panels')"));
+check('Suite fails on uncaught browser exceptions', browserTests.includes("check('No uncaught browser errors'"));
+check('Suite emits a machine-readable browser report', browserTests.includes('window.RMDS_BROWSER_COMPONENT_REPORT = report'));
+
+const failed = checks.filter(item => !item.ok);
+console.log(JSON.stringify({ status: failed.length ? 'failed' : 'passed', passed: checks.length - failed.length, failed: failed.length, checks }, null, 2));
+if (failed.length) process.exitCode = 1;

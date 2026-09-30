@@ -7,10 +7,13 @@
     <title>SM Components</title>
     <meta name="description" content="SM-Components. collection of web components">
     <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="../website/tokens/tokens.css">
+    <link rel="stylesheet" href="../website/css/system-showcase.css">
+    <link rel="stylesheet" href="css/library.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto+Mono&family=Roboto:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto+Mono&family=Roboto:wght@400;500;700&family=Material+Icons&display=swap"
         rel="stylesheet">
 </head>
 
@@ -25,10 +28,26 @@
                     <path d="M16 18v2H5v-2h11zm5-7v2H3v-2h18zm-2-7v2H8V4h11z" />
                 </svg>
             </button>
-            <h4>SM Components</h4>
-            <theme-toggle></theme-toggle>
+            <a class="library-brand" href="#overview_page" aria-label="Sairaj Mote component library home">
+                <span class="library-brand__mark" aria-hidden="true">SM</span>
+                <span class="library-brand__copy"><strong>Sairaj Mote</strong><small>Component library</small></span>
+            </a>
+            <div class="library-header__actions">
+                <button class="library-search-trigger" id="library_search_trigger" type="button" aria-label="Search components and documentation (Control K)">
+                    <span class="material-icons" aria-hidden="true">search</span><span>Search library</span><kbd>Ctrl K</kbd>
+                </button>
+                <theme-toggle></theme-toggle>
+            </div>
         </header>
-        <hamburger-menu id="side_nav">
+        <dialog class="library-command" id="library_command" aria-label="Search the component library">
+            <div class="library-command__search"><span class="material-icons" aria-hidden="true">search</span><input id="library_command_input" type="search" placeholder="Search components, guides, attributes…" autocomplete="off" aria-label="Search library"><kbd>ESC</kbd></div>
+            <div class="library-command__results" id="library_command_results" role="listbox" aria-label="Library pages"></div>
+            <p class="library-command__hint">Type to search · Tab to browse · Enter to open · Esc to close</p>
+        </dialog>
+        <hamburger-menu id="side_nav" aria-label="Component library navigation">
+            <div class="library-sidebar__intro"><span class="library-sidebar__eyebrow">DESIGN SYSTEM</span><strong>Browse the library</strong><small>Foundations, patterns and components</small></div>
+            <label class="library-sidebar__filter"><span class="material-icons" aria-hidden="true">search</span><input id="library_filter" type="search" placeholder="Filter navigation" autocomplete="off" aria-label="Filter library navigation"><kbd>/</kbd></label>
+            <p class="library-filter__empty" id="library_filter_empty" hidden>No matching pages.</p>
             <h4>Getting Started</h4>
             <ul class="list">
                 <li>
@@ -51,40 +70,35 @@
             <ul id="components_list" class="list"></ul>
         </hamburger-menu>
         <article class="right language-html">
-            <section id="overview_page" class="page">
-                <div>
-                    <h5 class="color-0-8 weight-500">Total components</h5>
-                    <h1 id="total_components_count" class="h1"></h1>
-                </div>
-                <div>
-                    <h1 class="page__title">Overview</h1>
-                    <div class="grid gap-2">
-                        <div class="div">
-                            <p>
-                                Component-based design is the cornerstone of the modern UI development process. With
-                                rise of
-                                more UI frameworks every day, the web platform has a serious issue of fragmentation and
-                                portability.
-                            </p>
-                            <p>
-                                Web components to the rescue! This is the collection of web components (WC here forward)
-                                that we
-                                use at RanchiMall, especially since we are a framework-less development environment so
-                                this was
-                                a logical choice.
-                            </p>
-                        </div>
-                        <div class="grid gap-1">
-                            <h3>Features</h3>
-                            <ul class="grid gap-0-5">
-                                <li>Native and Cross framework support</li>
-                                <li>Encapsulated style and functionality</li>
-                                <li>Easy styling</li>
-                                <li>Adaptive scaling </li>
-                            </ul>
-                        </div>
+            <section id="overview_page" class="page page--overview">
+                <div class="library-overview__eyebrow"><span class="library-live-dot"></span> WEB COMPONENTS <span>·</span> FRAMEWORK AGNOSTIC <span class="library-version">VERSION 1.0</span></div>
+                <div class="library-overview__hero">
+                    <div class="library-overview__copy">
+                        <h1 class="page__title">A component library built for the open web.</h1>
+                        <p>Reusable interface building blocks with encapsulated styles, clear APIs and practical examples. Use them in vanilla projects or bring them into your framework of choice.</p>
+                        <div class="library-overview__actions"><a class="library-action library-action--primary" href="#quick_start_page">Start building <span class="material-icons" aria-hidden="true">arrow_forward</span></a><a class="library-action library-action--secondary" href="#button_page">Explore components <span class="material-icons" aria-hidden="true">north_east</span></a></div>
+                    </div>
+                    <div class="library-overview__visual" aria-label="Component library preview">
+                        <div class="library-overview__visual-head"><span><i></i><i></i><i></i> COMPONENT / BUTTON</span><b>SM · 01</b></div>
+                        <div class="library-overview__visual-title">Clear patterns.<br><em>Less repeated work.</em></div>
+                        <div class="library-overview__visual-actions"><span>Primary action</span><span>Secondary</span></div>
+                        <div class="library-overview__visual-field"><small>EMAIL ADDRESS</small><div>hello@example.com <b>✓</b></div></div>
+                        <div class="library-overview__visual-foot"><span>Accessible states</span><span>Tokens included</span><span>Native web platform</span></div>
                     </div>
                 </div>
+                <div class="library-overview__stats" aria-label="Library facts">
+                    <div><strong id="total_components_count">21</strong><span>documented components</span></div>
+                    <div><strong>Native</strong><span>custom elements</span></div>
+                    <div><strong>Light + dark</strong><span>theme aware</span></div>
+                    <div><strong>Keyboard</strong><span>built for access</span></div>
+                </div>
+                <div class="library-overview__section-head"><div><span class="library-kicker">START HERE</span><h2>Everything you need to build with confidence.</h2></div><p>Go from a working example to the details behind every component.</p></div>
+                <div class="library-start-grid">
+                    <a class="library-start-card" href="#quick_start_page"><span class="library-start-card__number">01</span><span class="material-icons" aria-hidden="true">rocket_launch</span><h3>Quick start</h3><p>Select the components you need, then copy or download their source.</p><span class="library-start-card__link">Get set up <span class="material-icons" aria-hidden="true">arrow_forward</span></span></a>
+                    <a class="library-start-card" href="#global_styling_page"><span class="library-start-card__number">02</span><span class="material-icons" aria-hidden="true">tune</span><h3>Global styling</h3><p>Learn the shared CSS variables that help your product stay cohesive.</p><span class="library-start-card__link">View styling guide <span class="material-icons" aria-hidden="true">arrow_forward</span></span></a>
+                    <a class="library-start-card" href="#button_page"><span class="library-start-card__number">03</span><span class="material-icons" aria-hidden="true">smart_button</span><h3>Component reference</h3><p>Explore live examples, attributes, events and customization options.</p><span class="library-start-card__link">Browse components <span class="material-icons" aria-hidden="true">arrow_forward</span></span></a>
+                </div>
+                <div class="library-overview__note"><span class="material-icons" aria-hidden="true">info</span><p><strong>Designed for portability.</strong> The library uses native Web Components so a useful interface does not depend on a framework-specific runtime.</p><a href="#global_styling_page">Read the principles <span class="material-icons" aria-hidden="true">arrow_forward</span></a></div>
             </section>
 
             <section id="quick_start_page" class="page hide-completely">
@@ -104,9 +118,7 @@
                     </li>
                     <li>
                         Link the downloaded js before <span class="highlight">&lt;/body&gt;</span>
-                        <syntax-highlighter>
-                            <script src=".../components.js"></script>
-                        </syntax-highlighter>
+                        <syntax-highlighter><template><script src="components.js"></script></template></syntax-highlighter>
                     </li>
                 </ol>
                 <div class="grid grid-3 gap-0-5 align-center">
@@ -2164,7 +2176,6 @@
             renderComponentList()
             showPage(window.location.hash, { firstLoad: true })
             getRef('total_components_count').textContent = componentsList.length
-            getComponents()
         })
         function showPage(targetPage, options = {}) {
             const { firstLoad, hashChange } = options
@@ -2314,62 +2325,60 @@
             getRef('components_selection_list').querySelectorAll('sm-checkbox').forEach(elem => elem.checked = false)
         }
         async function getSelectedComponents() {
-            const selectedComponents = [...getRef('components_selection_list').querySelectorAll('sm-checkbox[checked]')].map(v => v.value)
-            const extension = getRef('get_minified').checked ? '.min.js' : '.js'
-            const filesList = []
-            selectedComponents.forEach(async component => {
-                for (const compObj in allComponentsObj) {
-                    const { name, download_url } = allComponentsObj[compObj]
-                    if (name === `${component}${extension}`) {
-                        filesList.push(fetch(download_url).then(async res => await res.text()))
-                        break;
-                    }
-                }
-            });
-            return await Promise.all(filesList)
+            const selected = [...getRef('components_selection_list').querySelectorAll('sm-checkbox[checked]')]
+                .map(component => component.value);
+            const extension = getRef('get_minified').checked ? '.min.js' : '.js';
+            return Promise.all(selected.map(async name => {
+                const response = await fetch(`dist/${name}${extension}`);
+                if (!response.ok) throw new Error(`Could not load ${name}${extension}`);
+                return response.text();
+            }));
         }
+
         async function downloadComponents() {
-            const sourceCode = await getFormattedSourceCode()
-            if (sourceCode) {
-                downloadJs(sourceCode)
-            } else {
-                notify('Please select at least one component', 'error')
+            try {
+                const sourceCode = await getFormattedSourceCode();
+                if (!sourceCode) { notify('Please select at least one component', 'error'); return; }
+                downloadJs(sourceCode);
+                const count = getRef('components_selection_list').querySelectorAll('sm-checkbox[checked]').length;
+                notify(`Downloaded ${count} component${count === 1 ? '' : 's'}`, 'success');
+            } catch (error) {
+                notify(`Could not prepare the download: ${error.message}`, 'error');
             }
         }
 
         async function copySourceCode() {
-            const sourceCode = await getFormattedSourceCode()
-            if (sourceCode) {
-                window.navigator.clipboard.writeText(sourceCode).then(success => {
-                    notify('Copied components source code')
-                }).catch(err => console.error(error))
-            }
-            else {
-                notify('Please select at least one component', 'error')
-            }
-        }
-
-        async function getFormattedSourceCode(components) {
-            const selectedComponents = await getSelectedComponents()
-            if (selectedComponents.length) {
-                const selectedComponentsList = [...getRef('components_selection_list').querySelectorAll('sm-checkbox[checked]')].map(v => v.value)
-                const minified = getRef('get_minified').checked
-                let componentsSourceCode = selectedComponents
-                if (minified) {
-                    // replace all whitespace with single space and remove new line characters
-                    componentsSourceCode = selectedComponents.map(v => v.replace(/\s+/g, ' ').replace(/\\n/g, ''))
+            try {
+                const sourceCode = await getFormattedSourceCode();
+                if (!sourceCode) { notify('Please select at least one component', 'error'); return; }
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(sourceCode);
+                } else {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = sourceCode;
+                    textarea.setAttribute('readonly', '');
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    const copied = document.execCommand('copy');
+                    textarea.remove();
+                    if (!copied) throw new Error('Clipboard access is unavailable in this browser.');
                 }
-                return `// Components downloaded: ${selectedComponentsList.join(',')}\n${componentsSourceCode.join("\n")}`
-            } else {
-                return false
+                notify('Component source copied', 'success');
+            } catch (error) {
+                notify(`Could not copy source: ${error.message}`, 'error');
             }
         }
 
-        let allComponentsObj = []
-        async function getComponents() {
-            const files = await fetch('https://api.github.com/repos/ranchimall/standard-ui/contents/components/dist')
-            allComponentsObj = await files.json()
+        async function getFormattedSourceCode() {
+            const selected = [...getRef('components_selection_list').querySelectorAll('sm-checkbox[checked]')]
+                .map(component => component.value);
+            if (!selected.length) return false;
+            const files = await getSelectedComponents();
+            return `// Sairaj Mote component library · ${selected.join(', ')}\n${files.join('\n\n')}`;
         }
+
         function downloadJs(sourceCode) {
             const minified = getRef('get_minified').checked
             const extension = minified ? '.min.js' : '.js'
@@ -2385,6 +2394,11 @@
             document.body.removeChild(element);
         }
     </script>
+    <script src="../website/js/system-motion.js"></script>
+    <script src="js/library-experience.js"></script>
 </body>
 
 </html>
+
+
+

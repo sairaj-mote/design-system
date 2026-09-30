@@ -426,6 +426,10 @@ customElements.define('sm-input',
             }
         }
 
+        handleInput = (e) => {
+            this.checkInput(e);
+            this.fireEvent();
+        }
         checkInput = (e) => {
             if (!this.hasAttribute('readonly')) {
                 if (this.input.value !== '') {
@@ -666,7 +670,7 @@ customElements.define('sm-input',
             } else {
                 this.applyGlobalCustomValidation()
             }
-            this.input.addEventListener('input', this.checkInput);
+            this.input.addEventListener('input', this.handleInput);
             this.clearBtn.addEventListener('click', this.clear);
             if (this.datalist.length) {
                 this.optionList.addEventListener('click', this.handleOptionClick);
@@ -740,7 +744,7 @@ customElements.define('sm-input',
             }
         }
         disconnectedCallback() {
-            this.input.removeEventListener('input', this.checkInput);
+            this.input.removeEventListener('input', this.handleInput);
             this.clearBtn.removeEventListener('click', this.clear);
             this.input.removeEventListener('keydown', this.allowOnlyNum);
             this.optionList.removeEventListener('click', this.handleOptionClick);

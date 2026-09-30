@@ -12,6 +12,9 @@ html, body{
     scroll-behavior: smooth;
 }
 body {
+  --theme-accent-color: #236b53;
+  --theme-text-rgb: 25, 37, 30;
+  --theme-foreground-rgb: 255, 255, 255;
     &,
     *{
         --accent-color: #0D7377;

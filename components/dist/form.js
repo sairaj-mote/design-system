@@ -35,6 +35,7 @@ customElements.define('sm-form', class extends HTMLElement {
 		this.supportedElements = 'input, sm-input, sm-textarea, sm-checkbox, tags-input, file-input, sm-switch, sm-radio';
 		this.formElements = [];
 		this._requiredElements = []
+		this.boundSubmitButton = null
 	}
 	static get observedAttributes() {
 		return ['skip-submit'];
@@ -71,38 +72,41 @@ customElements.define('sm-form', class extends HTMLElement {
 		if (!this.skipSubmit)
 			this.submitButton.disabled = !this.isFormValid;
 	}
+	submitForm = () => {
+		this._checkValidity();
+		const isValid = this._requiredElements.length === 0 || this.invalidFieldsCount === 0;
+		if (!isValid) return false;
+		this.dispatchEvent(new CustomEvent('submit', { bubbles: true, composed: true }));
+		return true;
+	}
+	handleSubmitClick = (e) => {
+		if (this.submitButton?.disabled) return;
+		e.preventDefault();
+		this.submitForm();
+	}
 	handleKeydown = (e) => {
-		if (e.key === 'Enter' && e.target.tagName.includes('INPUT')) {
-			if (this.invalidFieldsCount === 0) {
-				if (this.submitButton) {
-					this.submitButton.click();
-				}
-				this.dispatchEvent(new CustomEvent('submit', {
-					bubbles: true,
-					composed: true,
-				}));
-			} else {
-				for (const [elem, isWC] of this._requiredElements) {
-					const invalid = isWC ? !elem.isValid : !elem.checkValidity();
-					if (invalid) {
-						(elem?.shadowRoot?.lastElementChild || elem).animate([
-							{ transform: 'translateX(-1rem)' },
-							{ transform: 'translateX(1rem)' },
-							{ transform: 'translateX(-0.5rem)' },
-							{ transform: 'translateX(0.5rem)' },
-							{ transform: 'translateX(0)' },
-						], {
-							duration: 300,
-							easing: 'ease'
-						});
-						if (isWC) {
-							elem.focusIn();
-							if (elem.tagName === 'SM-INPUT' && elem.value.trim() === '') {
-								elem.showError()
-							}
-						} else elem.focus();
-						break;
-					}
+		if (e.key !== 'Enter' || !e.target.tagName.includes('INPUT')) return;
+		e.preventDefault();
+		this._checkValidity();
+		if (this._requiredElements.length === 0 || this.invalidFieldsCount === 0) {
+			if (this.submitButton) this.submitButton.click();
+			else this.submitForm();
+		} else {
+			for (const [elem, isWC] of this._requiredElements) {
+				const invalid = isWC ? !elem.isValid : !elem.checkValidity();
+				if (invalid) {
+					(elem?.shadowRoot?.lastElementChild || elem).animate([
+						{ transform: 'translateX(-1rem)' },
+						{ transform: 'translateX(1rem)' },
+						{ transform: 'translateX(-0.5rem)' },
+						{ transform: 'translateX(0.5rem)' },
+						{ transform: 'translateX(0)' },
+					], { duration: 300, easing: 'ease' });
+					if (isWC) {
+						elem.focusIn();
+						if (elem.tagName === 'SM-INPUT' && elem.value.trim() === '') elem.showError();
+					} else elem.focus();
+					break;
 				}
 			}
 		}
@@ -131,6 +135,11 @@ customElements.define('sm-form', class extends HTMLElement {
 		});
 		this._requiredElements = this.formElements.filter(([elem]) => elem.hasAttribute('required'));
 		this.submitButton = this.querySelector('[variant="primary"], [type="submit"]');
+		if (this.boundSubmitButton !== this.submitButton) {
+			this.boundSubmitButton?.removeEventListener('click', this.handleSubmitClick);
+			this.boundSubmitButton = this.submitButton;
+			this.boundSubmitButton?.addEventListener('click', this.handleSubmitClick);
+		}
 		this.resetButton = this.querySelector('[type="reset"]');
 		if (this.resetButton) {
 			this.resetButton.addEventListener('click', this.reset);
@@ -168,5 +177,6 @@ customElements.define('sm-form', class extends HTMLElement {
 		this.removeEventListener('input', this.debounce(this._checkValidity, 100));
 		this.removeEventListener('keydown', this.debounce(this.handleKeydown, 100));
 		this.mutationObserver.disconnect();
+		this.boundSubmitButton?.removeEventListener('click', this.handleSubmitClick);
 	}
 });

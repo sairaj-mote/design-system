@@ -1,5 +1,5 @@
 /* ============================================================
-   RanchiMall Design System &mdash; Documentation site engine
+   Sairaj Mote portfolio &mdash; Design system documentation engine
    Token data lives in tokens/tokens.json (source of truth).
    This file mirrors it for runtime rendering and demoing.
    ============================================================ */
@@ -10,9 +10,9 @@
      DATA &mdash; mirrors tokens/tokens.json
   ------------------------------------------------------------ */
   const DS = {
-    name: 'RanchiMall Design System',
+    name: 'Sairaj Mote Portfolio',
     version: '1.0.0',
-    tagline: 'A frameworkless, token-driven design system for building web products that scale.',
+    tagline: 'UI/UX design, design systems and frontend development.',
   };
 
   const tokens = window.RMDS_TOKENS;
@@ -246,7 +246,8 @@
       ],
       api: [
         { attr: 'disabled', type: 'boolean', values: '&mdash;', desc: 'Disables the select and all interaction.' },
-        { attr: 'sm-option value', type: 'child', values: 'string', desc: 'Each option carries a value; the selected value is read on change.' },
+        { attr: 'sm-option value', type: 'child', values: 'string', desc: 'Each option carries a value; the parent syncs its visible label and selected state.' },
+        { attr: 'value', type: 'property / attribute', values: 'string', desc: 'Read or set the selected value. The rendered option label updates with the value.' },
         { attr: 'change', type: 'event', values: '&mdash;', desc: 'Fired when a different option is selected; event.target.value gives the value.' },
       ],
       a11y: [
@@ -370,19 +371,19 @@
     },
     // --- Compact specs for remaining 21 components ---
     { name: 'Checkbox', tag: 'sm-checkbox', cat: 'Inputs', status: 'Stable', summary: 'A multi-select toggle with custom styling. Use for lists of independent options.', demo: '<sm-checkbox>Accept terms</sm-checkbox>', api: [{ attr: 'checked', type: 'boolean', values: '—', desc: 'Sets the initial checked state.' }, { attr: 'disabled', type: 'boolean', values: '—', desc: 'Disables interaction.' }, { attr: 'change', type: 'event', values: '—', desc: 'Fired on toggle; event.target.checked holds the value.' }], tokens: [{ var: '--accent-color', default: '#4d2588', desc: 'Fill colour when checked.' }, { var: '--height', default: '1.2rem', desc: 'Checkbox box height.' }, { var: '--width', default: '1.2rem', desc: 'Checkbox box width.' }], a11y: ['Space toggles; full keyboard support.', 'Exposed as role="checkbox" with aria-checked.'] },
-    { name: 'Menu', tag: 'sm-menu', cat: 'Navigation', status: 'Stable', summary: 'A trigger-activated dropdown menu. Use with menu-option children.', demo: '<sm-menu><menu-option>Edit</menu-option><menu-option>Delete</menu-option></sm-menu>', api: [{ attr: 'open', type: 'boolean', values: '—', desc: 'Opens the menu on connection.' }, { attr: 'expand()', type: 'method', values: '—', desc: 'Reveals the option list.' }, { attr: 'collapse()', type: 'method', values: '—', desc: 'Hides the option list.' }, { attr: 'toggle()', type: 'method', values: '—', desc: 'Toggles the option list.' }], tokens: [{ var: '--border-radius', default: '0.5rem', desc: 'Menu corner radius.' }], a11y: ['Arrow keys navigate items.', 'Escape closes.', 'Focus is trapped while open.'] },
+    { name: 'Menu', tag: 'sm-menu', cat: 'Navigation', status: 'Stable', summary: 'A trigger-activated dropdown menu. Use with menu-option children.', demo: '<sm-menu><menu-option>Edit</menu-option><menu-option>Delete</menu-option></sm-menu>', api: [{ attr: 'open', type: 'boolean', values: '—', desc: 'Opens the menu on connection.' }, { attr: 'expand()', type: 'method', values: '—', desc: 'Reveals the option list.' }, { attr: 'collapse()', type: 'method', values: '—', desc: 'Hides the option list.' }, { attr: 'toggle()', type: 'method', values: '—', desc: 'Toggles the option list.' }], tokens: [{ var: '--border-radius', default: '0.5rem', desc: 'Menu corner radius.' }], a11y: ['Arrow keys move between items.', 'Escape closes the menu and returns focus to its trigger.', 'The expanded state is exposed to assistive technology.'] },
     { name: 'Copy', tag: 'sm-copy', cat: 'Actions', status: 'Stable', summary: 'One-click copy-to-clipboard. Nests any content and fires a notification on success.', demo: '<sm-copy>Click to copy this text</sm-copy>', api: [{ attr: 'value', type: 'string', values: '—', desc: 'Explicit value to copy. Defaults to textContent.' }, { attr: 'copy', type: 'event', values: '—', desc: 'Fired after a successful copy.' }], tokens: [], a11y: ['Announces copy success to screen readers.', 'Keyboard accessible via Enter/Space.'] },
     { name: 'File input', tag: 'file-input', cat: 'Inputs', status: 'Stable', summary: 'A file picker with preview. Accepts images, documents, or any file type.', demo: '<file-input accept="image/*"></file-input>', api: [{ attr: 'accept', type: 'string', values: 'MIME types', desc: 'Restrict accepted file types.' }, { attr: 'multiple', type: 'boolean', values: '—', desc: 'Allow multiple file selection.' }, { attr: 'capture', type: 'string', values: '—', desc: 'Capture hint for camera input on mobile.' }, { attr: 'files', type: 'property', values: 'FileList', desc: 'Selected files.' }], tokens: [{ var: '--button-background-color', default: 'var(--accent-color)', desc: 'Picker button background.' }, { var: '--button-color', default: 'rgba(var(--background-color), 1)', desc: 'Picker button text colour.' }], a11y: ['Keyboard activation opens the file browser.', 'File count and sizes are listed after selection.'] },
     { name: 'Form', tag: 'sm-form', cat: 'Inputs', status: 'Stable', summary: 'Wraps inputs and orchestrates validation. Submit fires only when all fields are valid.', demo: '<sm-form><sm-input placeholder="Name" required></sm-input><sm-button type="submit">Send</sm-button></sm-form>', api: [{ attr: 'submit', type: 'event', values: '—', desc: 'Fired on valid submission. Prevent with invalid fields.' }, { attr: 'validate()', type: 'method', values: 'Boolean', desc: 'Runs validation on all fields and returns whether they are valid.' }], tokens: [], a11y: ['Error messages are linked to fields via aria-describedby.', 'Submit is prevented when fields are invalid.'] },
     { name: 'Spinner', tag: 'sm-spinner', cat: 'Feedback', status: 'Stable', summary: 'A circular loading indicator. Use for operations with known or unknown duration.', demo: '<sm-spinner style="--height:4rem;--width:4rem"></sm-spinner>', api: [], tokens: [{ var: '--height', default: '1.6rem', desc: 'Spinner height.' }, { var: '--width', default: '1.6rem', desc: 'Spinner width.' }, { var: '--accent-color', default: '#4d2588', desc: 'Ring colour.' }], a11y: ['Decorative by default; pair with a text label or live region for context.'] },
     { name: 'Radio', tag: 'sm-radio', cat: 'Inputs', status: 'Stable', summary: 'A single-select control. Group radios by name for mutual exclusion.', demo: '<sm-radio name="demo" checked>Option A</sm-radio> <sm-radio name="demo">Option B</sm-radio>', api: [{ attr: 'name', type: 'string', values: '—', desc: 'Group name for mutual exclusion.' }, { attr: 'checked', type: 'boolean', values: '—', desc: 'Sets the initial selected radio.' }, { attr: 'disabled', type: 'boolean', values: '—', desc: 'Disables the radio.' }, { attr: 'change', type: 'event', values: '—', desc: 'Fired when selection changes.' }, { attr: 'changed{name}', type: 'event', values: '—', desc: 'Group event fired on the document when any radio in the group changes.' }], tokens: [{ var: '--accent-color', default: '#4d2588', desc: 'Fill colour when checked.' }, { var: '--height', default: '1.4rem', desc: 'Radio button height.' }], a11y: ['Arrow keys move between radios in a group.'] },
     { name: 'Switch', tag: 'sm-switch', cat: 'Inputs', status: 'Stable', summary: 'A boolean toggle for settings. Immediate on/off with no confirmation needed.', demo: '<sm-switch checked>Notifications</sm-switch>', api: [{ attr: 'checked', type: 'boolean', values: '—', desc: 'Initial toggle state.' }, { attr: 'disabled', type: 'boolean', values: '—', desc: 'Disables the switch.' }, { attr: 'change', type: 'event', values: '—', desc: 'Fired on toggle; event.detail.value holds the state.' }], tokens: [{ var: '--accent-color', default: '#4d2588', desc: 'Track colour when on.' }], a11y: ['Space toggles.', 'Exposed as role="switch" with aria-checked.'] },
-    { name: 'Tabs', tag: 'sm-tab-header', cat: 'Navigation', status: 'Stable', summary: 'Tabbed navigation. Pair sm-tab-header with sm-tab and sm-tab-panels for full tab system.', demo: '<sm-tab-header><sm-tab>One</sm-tab><sm-tab>Two</sm-tab></sm-tab-header>', api: [{ attr: 'variant', type: 'string', values: 'tab', desc: 'Segmented tab styling instead of the underline style.' }, { attr: 'target', type: 'string', values: 'id of sm-tab-panels', desc: 'Links the header to its panel container.' }, { attr: 'switchedtab{id}', type: 'event', values: '—', desc: 'Fired when tab selection changes; event.detail.index.' }], tokens: [{ var: '--accent-color', default: 'var(--accent-color)', desc: 'Active tab indicator colour.' }], a11y: ['Arrow keys navigate tabs.', 'Active tab is visually indicated.'] },
+    { name: 'Tabs', tag: 'sm-tab-header', cat: 'Navigation', status: 'Stable', summary: 'Tabbed navigation. Pair sm-tab-header with sm-tab and sm-tab-panels to switch related views.', demo: '<sm-tab-header target="tabs-demo-panels"><sm-tab selected>Overview</sm-tab><sm-tab>Details</sm-tab><sm-tab>Activity</sm-tab></sm-tab-header><sm-tab-panels id="tabs-demo-panels"><section>Overview content</section><section>Details content</section><section>Activity content</section></sm-tab-panels>', api: [{ attr: 'variant', type: 'string', values: 'tab', desc: 'Segmented tab styling instead of the underline style.' }, { attr: 'target', type: 'string', values: 'id of sm-tab-panels', desc: 'Links the header to its panel container; optional when showing tabs without panels.' }, { attr: 'switchedtab{id}', type: 'event', values: 'index', desc: 'Fired when tab selection changes; event.detail.index identifies the selected tab.' }], tokens: [{ var: '--accent-color', default: 'var(--accent-color)', desc: 'Active tab indicator colour.' }], a11y: ['Arrow keys move focus and selection; Home and End move to the first and last enabled tabs.', 'Selected tab state and the tab list role are exposed to assistive technology.'] },
     { name: 'Textarea', tag: 'sm-textarea', cat: 'Inputs', status: 'Stable', summary: 'An auto-growing textarea. Expands as the user types; no manual resize needed.', demo: '<sm-textarea placeholder="Write something..." rows="3"></sm-textarea>', api: [{ attr: 'rows', type: 'number', values: '—', desc: 'Initial visible rows.' }, { attr: 'placeholder', type: 'string', values: '—', desc: 'Placeholder text.' }, { attr: 'value', type: 'string', values: '—', desc: 'Current text content.' }, { attr: 'change', type: 'event', values: '—', desc: 'Fired when the value changes.' }], tokens: [{ var: '--background', default: 'rgba(var(--text-color),0.06)', desc: 'Textarea background.' }, { var: '--border-radius', default: '0.3rem', desc: 'Corner radius.' }], a11y: ['Label association via aria-labelledby.'] },
     { name: 'Text field', tag: 'text-field', cat: 'Inputs', status: 'Stable', summary: 'An editable text surface with a built-in edit/save control. Double-click the text or use the edit button to change it.', demo: '<text-field value="Email address"></text-field>', api: [{ attr: 'value', type: 'string', values: '—', desc: 'Text displayed and returned after editing.' }, { attr: 'disabled', type: 'boolean', values: '—', desc: 'Removes editing behavior and hides the edit control.' }, { attr: 'change', type: 'event', values: '—', desc: 'Fired after a changed value is saved.' }], tokens: [], a11y: ['The edit control has an accessible title.', 'Content remains readable when editing is unavailable.', 'Save returns focus to the editing surface.'] },
     { name: 'Carousel', tag: 'sm-carousel', cat: 'Media', status: 'Stable', summary: 'A responsive slideshow with dots and arrows. Use for hero banners or image galleries.', demo: '<sm-carousel indicator aria-label="Featured examples" style="width:100%;max-width:34rem;"><div style="display:grid;place-items:center;min-width:100%;min-height:8rem;padding:1rem;background:var(--accent-color);color:#fff;">Slide 1</div><div style="display:grid;place-items:center;min-width:100%;min-height:8rem;padding:1rem;background:var(--color-secondary-500);color:#111315;">Slide 2</div><div style="display:grid;place-items:center;min-width:100%;min-height:8rem;padding:1rem;background:var(--color-primary-700);color:#fff;">Slide 3</div></sm-carousel>', api: [{ attr: 'indicator', type: 'boolean', values: '—', desc: 'Renders one interactive indicator per slide.' }, { attr: 'autoplay', type: 'boolean', values: '—', desc: 'Auto-advance slides; pauses on hover and focus.' }, { attr: 'interval', type: 'number', values: 'ms', desc: 'Auto-advance interval in milliseconds.' }, { attr: 'align-items', type: 'string', values: 'start | center | end', desc: 'Slide snap alignment.' }], tokens: [], a11y: ['Autoplay pauses on hover and focus.', 'Arrow keys navigate slides.', 'Each slide has a full-width reading and interaction area.', 'The carousel has an accessible region label and keyboard-focusable controls.'] },
     { name: 'Theme toggle', tag: 'theme-toggle', cat: 'Actions', status: 'Stable', summary: 'Switches between light and dark themes. Respects system preference and persists choice.', demo: '<theme-toggle></theme-toggle>', api: [{ attr: 'checked', type: 'boolean', values: '—', desc: 'Represents dark mode; toggling persists the choice to localStorage.' }, { attr: 'themechange', type: 'event', values: '—', desc: 'Fired on toggle; event.detail.theme is the new theme.' }], tokens: [], a11y: ['Exposed as a switch with aria-checked.', 'Icon updates to reflect the active theme.'] },
-    { name: 'Tags input', tag: 'tags-input', cat: 'Inputs', status: 'Stable', summary: 'Enter multiple values as removable chips. Use for keywords, recipients, or categories.', demo: '<tags-input placeholder="Add a tag..."></tags-input>', api: [{ attr: 'placeholder', type: 'string', values: '—', desc: 'Placeholder text in the input.' }, { attr: 'limit', type: 'number', values: '—', desc: 'Maximum number of tags allowed.' }, { attr: 'value', type: 'string', values: 'comma-separated', desc: 'Current tags as a comma-separated string.' }], tokens: [], a11y: ['Tags can be removed with Backspace or Delete.', 'New tag announced on addition.'] },
+    { name: 'Tags input', tag: 'tags-input', cat: 'Inputs', status: 'Stable', summary: 'Enter multiple values as removable chips. Use for keywords, recipients, or categories.', demo: '<tags-input placeholder="Add a tag..."></tags-input>', api: [{ attr: 'placeholder', type: 'string', values: '—', desc: 'Placeholder text in the input.' }, { attr: 'limit', type: 'number', values: '—', desc: 'Maximum number of tags allowed.' }, { attr: 'value', type: 'read-only property', values: 'comma-separated', desc: 'Current tags as a comma-separated string. Add and remove tags through the field.' }], tokens: [], a11y: ['Tags can be removed with Backspace or Delete.', 'New tag announced on addition.'] },
     { name: 'Strip select', tag: 'strip-select', cat: 'Inputs', status: 'Stable', summary: 'A segmented control for small option sets (2-5). Use when options are short and few.', demo: '<strip-select><strip-option selected>Day</strip-option><strip-option>Week</strip-option><strip-option>Month</strip-option></strip-select>', api: [{ attr: 'change', type: 'event', values: '—', desc: 'Fired on selection change.' }], tokens: [{ var: '--background', default: 'rgba(var(--text-color),0.06)', desc: 'Segment background.' }], a11y: ['Arrow keys navigate segments.', 'Selected segment has aria-selected="true".'] },
     { name: 'Hamburger menu', tag: 'hamburger-menu', cat: 'Navigation', status: 'Stable', summary: 'A responsive slide-out navigation drawer. The hamburger icon is shown on mobile.', demo: '<hamburger-menu><div><h4>Nav</h4><a href="#">Link</a></div></hamburger-menu>', api: [{ attr: 'open', type: 'boolean', values: '—', desc: 'Shows the drawer.' }, { attr: 'open()', type: 'method', values: '—', desc: 'Opens the drawer programmatically.' }, { attr: 'close()', type: 'method', values: '—', desc: 'Closes the drawer programmatically.' }], tokens: [{ var: '--width', default: '18rem', desc: 'Drawer width.' }], a11y: ['Focus trapped inside open drawer.', 'Escape closes.', 'Hamburger icon has aria-label.'] },
   ];
@@ -576,11 +577,8 @@
     spec.intent = spec.intent || guidance.intent;
     spec.whenToUse = spec.whenToUse || guidance.use;
     spec.whenNotToUse = spec.whenNotToUse || guidance.avoid;
-    spec.anatomy = spec.anatomy || [
-      { label: 'Container', note: 'Owns spacing, surface, alignment, and the visual relationship to nearby content.' },
-      { label: 'Primary content', note: childNote },
-      { label: 'Feedback layer', note: 'Communicates focus, selection, progress, validation, or completion without relying on colour alone.' },
-    ];
+    // Anatomy is only shown when authored for this component. The DOM structure below
+    // is always derived from the exact, copyable demo markup so it cannot drift.
     spec.variants = spec.variants?.length ? spec.variants : [{ name: 'Default', html: spec.demo }];
     spec.states = spec.states?.length >= 3 ? spec.states : defaultStatesForSpec(spec);
     spec.usage = spec.usage || {
@@ -608,6 +606,9 @@
   }
 
   specs.forEach(enrichSpec);
+  // Keep one runtime source of truth available to browser-level contract tests.
+  window.RMDS_COMPONENT_SPECS = specs;
+  window.RMDS_COMPONENT_INVENTORY = components;
 
   function verifyComponentContracts() {
     const report = specs.map(spec => {
@@ -754,16 +755,110 @@
   }
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  function structureNodeHTML(node, stats, depth = 0) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent.trim();
+      if (!text) return '';
+      stats.nodes++;
+      return `<li class="structure-node structure-node--text"><div class="structure-node__row"><span class="structure-node__kind">text</span><span class="structure-node__content">${esc(text)}</span></div></li>`;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE || stats.nodes >= 60 || depth > 8) return '';
+    stats.nodes++;
+    const tag = node.localName;
+    const custom = tag.includes('-');
+    if (custom) stats.custom++;
+    const attrs = [...node.attributes].map(attr => `<span class="structure-node__attr"><b>${esc(attr.name)}</b>${attr.value ? ` <i>=</i> ${esc(attr.value)}` : ''}</span>`).join('');
+    const ownText = [...node.childNodes].filter(child => child.nodeType === Node.TEXT_NODE).map(child => child.textContent.trim()).filter(Boolean).join(' ');
+    const children = [...node.childNodes].map(child => structureNodeHTML(child, stats, depth + 1)).filter(Boolean);
+    return `<li class="structure-node${custom ? ' structure-node--custom' : ''}"><div class="structure-node__row"><code class="structure-node__tag">&lt;${esc(tag)}&gt;</code>${custom ? '<span class="structure-node__kind">custom element</span>' : ''}${attrs ? `<div class="structure-node__attrs">${attrs}</div>` : ''}${ownText ? `<span class="structure-node__content">${esc(ownText)}</span>` : ''}</div>${children.length ? `<ol class="structure-tree">${children.join('')}</ol>` : ''}</li>`;
+  }
+
+  function componentStructureHTML(spec) {
+    const parsed = new DOMParser().parseFromString(spec.demo || '', 'text/html');
+    const stats = { nodes: 0, custom: 0 };
+    const roots = [...parsed.body.childNodes].map(node => structureNodeHTML(node, stats)).filter(Boolean);
+    return `<section class="spec-structure" aria-label="Markup structure for ${esc(spec.name)}"><div class="spec-structure__header"><div><span class="spec-guidance__eyebrow">READ THE COMPOSITION</span><h4>Built from the example markup</h4><p>Each layer below is read from the same source shown in the copyable snippet.</p></div><div class="spec-structure__counts"><span><b>${stats.nodes}</b> nodes</span><span><b>${stats.custom}</b> custom elements</span></div></div><ol class="structure-tree structure-tree--root">${roots.join('')}</ol></section>`;
+  }
+
+  const lifecycleMembers = new Set(['constructor', 'connectedCallback', 'disconnectedCallback', 'adoptedCallback', 'attributeChangedCallback', 'formAssociatedCallback', 'formDisabledCallback', 'formResetCallback', 'formStateRestoreCallback']);
+  function componentRuntimeAPI(spec) {
+    const Component = customElements.get(spec.tag);
+    if (!Component) return { attributes: [], members: [] };
+    let attributes = [];
+    try { attributes = Array.from(Component.observedAttributes || []); } catch (error) { attributes = []; }
+    const prototype = Component.prototype;
+    const members = Object.getOwnPropertyNames(prototype).filter(name => !lifecycleMembers.has(name)).map(name => {
+      const descriptor = Object.getOwnPropertyDescriptor(prototype, name);
+      return { name, kind: descriptor.get || descriptor.set ? 'property' : typeof descriptor.value === 'function' ? 'method' : 'member', access: descriptor.get && descriptor.set ? 'read / write' : descriptor.get ? 'read' : descriptor.set ? 'write' : '' };
+    });
+    return { attributes, members };
+  }
+
+  function runtimeAPISummaryHTML(spec) {
+    const runtime = componentRuntimeAPI(spec);
+    const normalizeMember = name => name.toLowerCase().replace(/[\s_-]/g, '');
+    const documented = new Set();
+    let nativeInputContract = false;
+    (spec.api || []).forEach(item => {
+      if (item.type === 'event' || item.type === 'child') return;
+      if (item.type === 'native' && /native input attributes/i.test(item.desc || '')) nativeInputContract = true;
+      item.attr.replace(/\(.*$/, '').split(/\s+\/\s+/).forEach(name => {
+        const cleaned = name.replace(/<[^>]+>/g, '').trim();
+        if (cleaned) documented.add(normalizeMember(cleaned));
+      });
+    });
+    if (nativeInputContract) ['accept','autocomplete','autofocus','checked','disabled','form','formaction','formenctype','formmethod','formnovalidate','formtarget','height','inputmode','list','max','maxlength','min','minlength','multiple','name','pattern','placeholder','readonly','required','size','src','step','type','value','width'].forEach(name => documented.add(normalizeMember(name)));
+    const rows = [
+      ...runtime.attributes.map(name => ({ name, kind: 'observed attribute', access: '' })),
+      ...runtime.members.map(member => ({ ...member })),
+    ];
+    if (!rows.length) return '';
+    const items = rows.map(row => {
+      const isDocumented = documented.has(normalizeMember(row.name));
+      const isHelper = row.kind === 'method' && /^(handle|fireEvent|dispatch|checkInput|vibrate|randString|createNotification|removeNotification|updateDialogSemantics|updateFocusableList|detectFocus|moveIndiactor)/i.test(row.name);
+      const status = isDocumented ? 'In spec' : isHelper ? 'Implementation helper' : 'Add docs';
+      const statusClass = isDocumented ? 'is-documented' : isHelper ? 'is-internal' : 'needs-docs';
+      return `<div class="spec-runtime-api__item"><code>${esc(row.name)}${row.kind === 'method' ? '()' : ''}</code><span>${esc(row.kind)}${row.access ? ` · ${esc(row.access)}` : ''}</span><em class="${statusClass}">${status}</em></div>`;
+    }).join('');
+    return `<details class="spec-runtime-api"><summary><span>Runtime API inventory</span><small>${runtime.attributes.length} attributes · ${runtime.members.length} prototype members</small></summary><p>Detected from the registered custom element. Prototype methods include implementation helpers because JavaScript does not mark them private.</p><div class="spec-runtime-api__grid">${items}</div></details>`;
+  }
+
   window.copySpecMarkup = async button => {
     const code = button?.parentElement?.querySelector('code')?.textContent || '';
+    const label = button?.querySelector('span:last-child');
+    let copied = false;
+
     try {
-      await navigator.clipboard.writeText(code);
-      const label = button.querySelector('span:last-child');
-      if (label) label.textContent = 'Copied';
-      setTimeout(() => { if (label) label.textContent = 'Copy markup'; }, 1400);
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(code);
+        copied = true;
+      }
     } catch (error) {
-      console.warn('Could not copy spec markup.', error);
+      // Fall back for browsers that restrict clipboard access on local files.
     }
+
+    if (!copied) {
+      const fallback = document.createElement('textarea');
+      fallback.value = code;
+      fallback.setAttribute('readonly', '');
+      fallback.style.position = 'fixed';
+      fallback.style.opacity = '0';
+      document.body.appendChild(fallback);
+      fallback.focus();
+      fallback.select();
+      try {
+        copied = document.execCommand('copy');
+      } catch (error) {
+        copied = false;
+      }
+      fallback.remove();
+    }
+
+    if (label) {
+      label.textContent = copied ? 'Copied' : 'Copy failed';
+      setTimeout(() => { label.textContent = 'Copy markup'; }, 1800);
+    }
+    if (!copied) console.warn('Could not copy spec markup.');
   };
 
   /* ------------------------------------------------------------
@@ -860,7 +955,7 @@
       <ul class="spec-detail-list ${className}">${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
     const codeSection = s.demo ? `
       <h3 class="spec-section">Markup</h3>
-      <div class="spec-code-block"><button class="spec-code-block__copy" type="button" onclick="copySpecMarkup(this)"><span class="material-icons" aria-hidden="true">content_copy</span><span>Copy markup</span></button><pre><code>${esc(s.demo)}</code></pre></div>` : '';
+      <div class="spec-code-block"><button class="spec-code-block__copy" type="button" onclick="copySpecMarkup(this)"><span class="material-icons" aria-hidden="true">content_copy</span><span aria-live="polite">Copy markup</span></button><pre><code class="language-markup">${esc(s.demo)}</code></pre></div>` : '';
     const relatedSection = (s.related || []).length ? `
       <h3 class="spec-section">Related components</h3>
       <div class="spec-related">${s.related.map(name => `<a href="#spec_${name.toLowerCase().replace(/[ /]/g, '_')}_page" class="spec-related__link">${name}<span class="material-icons" aria-hidden="true">arrow_forward</span></a>`).join('')}</div>` : '';
@@ -881,11 +976,14 @@
       <h3 class="spec-section">Demo</h3>
       <div class="demo" data-demo-tag="${s.tag}"${s.demoTarget ? ` data-demo-target="${s.demoTarget}"` : ''}>${s.demo}</div>
 
-      ${anatomyRow}
+      <h3 class="spec-section">Component structure</h3>
+      ${componentStructureHTML(s)}
+      ${anatomyRow ? `<h3 class="spec-section">Design anatomy</h3>${anatomyRow}` : ''}
       ${partsRow}
       ${variantsRow}
       ${statesRow}
       ${apiSection}
+      ${runtimeAPISummaryHTML(s)}
       ${tokensRow}
       ${a11yRow}
       ${listSection('Interaction contract', s.interaction, 'spec-detail-list--interaction')}
@@ -895,6 +993,12 @@
       ${codeSection}
       ${relatedSection}
     </article>`;
+  }
+
+  function renderSpec(target, spec) {
+    if (!target || !spec) return;
+    target.innerHTML = fullSpecHTML(spec);
+    if (window.Prism?.highlightAllUnder) window.Prism.highlightAllUnder(target);
   }
 
   const R = {
@@ -1089,15 +1193,34 @@
 
     components() {
       const cats = ['All', ...new Set(components.map(c => c.cat))];
-      $('#ds-comp-filters').innerHTML = cats.map(c => `
-        <button class="chip-btn ${c === 'All' ? 'chip-btn--active' : ''}" data-cat="${esc(c)}">${c}</button>`).join('');
-      $('#ds-comp-filters').addEventListener('click', e => {
-        const btn = e.target.closest('.chip-btn');
-        if (!btn) return;
-        $$('.chip-btn', $('#ds-comp-filters')).forEach(b => b.classList.toggle('chip-btn--active', b === btn));
-        renderCompGrid(btn.dataset.cat);
+      const filterRoot = $('#ds-comp-filters');
+      const searchInput = $('#component_search');
+      const resultCount = $('#component_result_count');
+      filterRoot.innerHTML = cats.map(c => `
+        <button type="button" class="chip-btn ${c === 'All' ? 'chip-btn--active' : ''}" data-cat="${esc(c)}" aria-pressed="${c === 'All'}">${c}</button>`).join('');
+      const updateCatalog = () => {
+        const active = filterRoot.querySelector('.chip-btn--active');
+        const category = active?.dataset.cat || 'All';
+        const query = searchInput?.value.trim() || '';
+        const standalone = components.filter(component => !component.parent);
+        const term = query.toLocaleLowerCase();
+        const matches = standalone.filter(component => (category === 'All' || component.cat === category)
+          && (!term || `${component.name} ${component.tag} ${component.cat} ${component.desc}`.toLocaleLowerCase().includes(term)));
+        resultCount.textContent = `${matches.length} ${matches.length === 1 ? 'component' : 'components'}`;
+        renderCompGrid(category, query);
+      };
+      filterRoot.addEventListener('click', event => {
+        const button = event.target.closest('.chip-btn');
+        if (!button) return;
+        filterRoot.querySelectorAll('.chip-btn').forEach(item => {
+          const selected = item === button;
+          item.classList.toggle('chip-btn--active', selected);
+          item.setAttribute('aria-pressed', String(selected));
+        });
+        updateCatalog();
       });
-      renderCompGrid('All');
+      searchInput?.addEventListener('input', updateCatalog);
+      updateCatalog();
     },
 
     patterns() {
@@ -1124,18 +1247,18 @@
         </div>`).join('');
     },
 
-    specButton() { $('#ds-spec-button').innerHTML = fullSpecHTML(specs[0]); },
-    specInput() { $('#ds-spec-input').innerHTML = fullSpecHTML(specs[1]); },
-    specSelect() { $('#ds-spec-select').innerHTML = fullSpecHTML(specs[2]); },
-    specNotifications() { $('#ds-spec-notifications').innerHTML = fullSpecHTML(specs[3]); },
-    specPopup() { $('#ds-spec-popup').innerHTML = fullSpecHTML(specs[4]); },
+    specButton() { renderSpec($('#ds-spec-button'), specs[0]); },
+    specInput() { renderSpec($('#ds-spec-input'), specs[1]); },
+    specSelect() { renderSpec($('#ds-spec-select'), specs[2]); },
+    specNotifications() { renderSpec($('#ds-spec-notifications'), specs[3]); },
+    specPopup() { renderSpec($('#ds-spec-popup'), specs[4]); },
 
     specPage(pageId) {
       if (!pageId) return;
       const parts = pageId.replace('_page', '').split('_'); parts.shift(); // remove 'spec'
       let spec = specs.find(s => s.name.toLowerCase().replace(/[ /]/g, '_') === parts.join('_'));
       if (!spec) spec = specs.find(s => pageId === 'spec_' + s.name.toLowerCase().replace(/[ /]/g, '_') + '_page');
-      if (spec) $('#ds-spec-page').innerHTML = fullSpecHTML(spec);
+      if (spec) renderSpec($('#ds-spec-page'), spec);
     },
 
     guidelines() {
@@ -1156,25 +1279,31 @@
     },
   };
 
-  function renderCompGrid(cat) {
+  function renderCompGrid(cat, query = '') {
     const specByTag = Object.fromEntries(specs.map(s => [s.tag, `spec_${s.name.toLowerCase().replace(/ /g, '_')}_page`]));
-    const standaloneComponents = components.filter(component => !component.parent);
-    const list = cat === 'All' ? standaloneComponents : standaloneComponents.filter(c => c.cat === cat);
-    $('#ds-comp-grid').innerHTML = list.map(c => {
+    const term = query.trim().toLocaleLowerCase();
+    const list = components.filter(component => !component.parent
+      && (cat === 'All' || component.cat === cat)
+      && (!term || `${component.name} ${component.tag} ${component.cat} ${component.desc}`.toLocaleLowerCase().includes(term)));
+    const grid = $('#ds-comp-grid');
+    if (!list.length) {
+      grid.innerHTML = '<div class="component-empty" role="listitem"><span class="material-icons" aria-hidden="true">search_off</span><strong>No components found</strong><span>Try another name, tag or category.</span></div>';
+      return;
+    }
+    grid.innerHTML = list.map(c => {
       const specHref = specByTag[c.tag];
       return `
-      <div class="comp-card">
+      <article class="comp-card" role="listitem">
         <div class="comp-card__head">
           <code class="comp-card__tag">&lt;${c.tag}&gt;</code>
           <span class="pill">${c.cat}</span>
         </div>
-        <h4>${c.name}</h4>
+        <h3>${c.name}</h3>
         <p>${c.desc}</p>
         <a class="comp-card__link" href="${specHref ? '#' + specHref : '../components/index.html'}" ${specHref ? '' : 'target="_blank" rel="noopener"'}>${specHref ? 'Full spec' : 'Full docs'} <span class="material-icons link-icon" aria-hidden="true">${specHref ? 'arrow_forward' : 'open_in_new'}</span></a>
-      </div>`;
+      </article>`;
     }).join('');
   }
-
   /* ------------------------------------------------------------
      Navigation
   ------------------------------------------------------------ */
@@ -1184,7 +1313,7 @@
       const items = g.items.map(i => {
         if (i.children) {
           return `<li>
-            <button class="nav-accordion__toggle interact" aria-expanded="false">${i.name} <span class="material-icons nav-accordion__icon">expand_more</span></button>
+            <button class="nav-accordion__toggle interact" aria-expanded="false">${i.name} <span class="material-icons nav-accordion__icon" aria-hidden="true">expand_more</span></button>
             <ul class="list nav-accordion__list hide-completely">
               ${i.children.map(ch => `<li><a href="#${ch.pageId}" class="list__item interact">${ch.name}</a></li>`).join('')}
             </ul>
@@ -1202,7 +1331,6 @@
         const expanded = btn.getAttribute('aria-expanded') === 'true';
         btn.setAttribute('aria-expanded', !expanded);
         list.classList.toggle('hide-completely', expanded);
-        btn.querySelector('.nav-accordion__icon').textContent = expanded ? 'expand_more' : 'expand_less';
       });
     });
   }
@@ -1215,6 +1343,7 @@
     if (pageId.startsWith('spec_') && !heroSpecs.includes(pageId)) {
       const specDiv = $('#spec_page');
       if (!specDiv) return;
+      document.body.classList.remove('is-portfolio');
       $$('.page').forEach(p => p.classList.add('hide-completely'));
       $$('.list__item--active').forEach(i => i.classList.remove('list__item--active'));
       specDiv.classList.remove('hide-completely');
@@ -1231,6 +1360,7 @@
     }
     const page = $(`#${pageId}`);
     if (!page || !page.classList.contains('page')) return;
+    document.body.classList.toggle('is-portfolio', pageId === 'overview_page');
     $$('.page').forEach(p => p.classList.add('hide-completely'));
     $$('.list__item--active').forEach(i => i.classList.remove('list__item--active'));
     page.classList.remove('hide-completely');

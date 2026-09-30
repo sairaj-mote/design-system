@@ -1,0 +1,62 @@
+/* Shared visual polish for the standalone component docs and starter layouts. */
+:root { --showcase-ease: cubic-bezier(.2,.7,.2,1); }
+html { scroll-behavior: smooth; }
+body:not(.is-portfolio) {
+  --showcase-accent: #236b53;
+  --showcase-canvas: #f5f7f4;
+  --showcase-surface: #fff;
+  --showcase-line: rgba(23,36,29,.1);
+  font-family: "Roboto", sans-serif;
+  background: var(--showcase-canvas);
+}
+body:not(.is-portfolio)[data-theme="dark"] {
+  --showcase-accent: #9ce1c0;
+  --showcase-canvas: #121a16;
+  --showcase-surface: #202b25;
+  --showcase-line: rgba(218,239,224,.12);
+}
+body:not(.is-portfolio) #main_header {
+  position: sticky; top: 0; z-index: 20; min-height: 4.5rem; padding-inline: clamp(1rem, 4vw, 3.5rem);
+  border-bottom: 1px solid var(--showcase-line); background: color-mix(in srgb, var(--showcase-surface) 88%, transparent);
+  backdrop-filter: blur(16px);
+}
+body:not(.is-portfolio) #main_header h4 { font-size: .9rem; letter-spacing: -.02em; }
+body:not(.is-portfolio) #side_nav_button { width: 2.6rem; height: 2.6rem; align-items: center; justify-content: center; border-radius: .65rem; transition: background .2s ease, transform .2s ease; }
+body:not(.is-portfolio) #side_nav_button:hover { background: rgba(35,107,83,.08); transform: translateY(-1px); }
+body:not(.is-portfolio) #side_nav { --accent-color: var(--showcase-accent); }
+body:not(.is-portfolio) #side_nav h4 { letter-spacing: .13em; font-size: .64rem; }
+body:not(.is-portfolio) .right { padding: clamp(1.25rem, 4vw, 3.5rem); scroll-behavior: smooth; }
+body:not(.is-portfolio) .page { width: min(100%, 72rem); margin-inline: auto; padding-bottom: 4rem; animation: showcase-page-in .36s var(--showcase-ease) both; }
+body:not(.is-portfolio) .page__title,
+body:not(.is-portfolio) .right h1 { margin-bottom: .65rem; font-size: clamp(2rem, 4.7vw, 3.75rem); font-weight: 500; letter-spacing: -.065em; line-height: 1.02; }
+body:not(.is-portfolio) .right > .page > p { max-width: 68ch; margin-bottom: 1.8rem; color: rgba(var(--text-color), .68); }
+body:not(.is-portfolio) .right h2 { margin-top: 2.5rem; font-size: 1.35rem; letter-spacing: -.04em; }
+body:not(.is-portfolio) .card,
+body:not(.is-portfolio) .demo,
+body:not(.is-portfolio) .resource-card,
+body:not(.is-portfolio) .principle-card,
+body:not(.is-portfolio) .spec-card {
+  border: 1px solid var(--showcase-line); border-radius: .9rem; background: var(--showcase-surface);
+  box-shadow: 0 8px 28px rgba(23,36,29,.035); transition: transform .24s var(--showcase-ease), box-shadow .24s ease, border-color .24s ease;
+}
+body:not(.is-portfolio) .demo:hover,
+body:not(.is-portfolio) .resource-card:hover { transform: translateY(-3px); border-color: rgba(35,107,83,.28); box-shadow: 0 18px 40px rgba(23,36,29,.08); }
+body:not(.is-portfolio) .demo { padding: 1.25rem; }
+body:not(.is-portfolio) .table { overflow: hidden; border: 1px solid var(--showcase-line); border-radius: .85rem; background: var(--showcase-surface); }
+body:not(.is-portfolio) .tr { padding: 1rem 1.15rem; border-color: var(--showcase-line); }
+body:not(.is-portfolio) code { border-radius: .3rem; background: rgba(35,107,83,.07); }
+body:not(.is-portfolio) pre { border: 1px solid var(--showcase-line); border-radius: .75rem; }
+body:not(.is-portfolio) a, body:not(.is-portfolio) button, body:not(.is-portfolio) theme-toggle { -webkit-tap-highlight-color: transparent; }
+body:not(.is-portfolio) :focus-visible { outline: 3px solid color-mix(in srgb, var(--showcase-accent), transparent 55%); outline-offset: 3px; }
+body:not(.is-portfolio) hamburger-menu { --accent-color: var(--showcase-accent); }
+body:not(.is-portfolio) .showcase-reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--showcase-ease), transform .5s var(--showcase-ease); }
+body:not(.is-portfolio) .showcase-reveal.is-visible { opacity: 1; transform: none; }
+@keyframes showcase-page-in { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@media(max-width:700px) {
+  body:not(.is-portfolio) .right { padding: 1.1rem; }
+  body:not(.is-portfolio) #main_header { padding-inline: .75rem; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  body:not(.is-portfolio) .showcase-reveal { opacity: 1; transform: none; }
+}
