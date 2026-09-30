@@ -3,9 +3,9 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const read = relativePath => fs.readFileSync(path.join(root, relativePath), 'utf8');
-const index = read('design-system/index.html');
-const style = read('design-system/css/main.css');
-const documentation = read('design-system/js/design-system.js');
+const index = read('website/index.html');
+const style = read('website/css/main.css');
+const documentation = read('website/js/design-system.js');
 const sourceComponents = read('components/components.js');
 const findings = [];
 
@@ -20,47 +20,47 @@ const headings = [...index.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h[1-6]>/gi)].
 }));
 
 const duplicateIds = ids.filter((item, index, all) => all.findIndex(candidate => candidate.value === item.value) !== index);
-duplicateIds.forEach(item => finding('high', 'mechanical', `Duplicate id "${item.value}" can break labels, focus targets, and route selection.`, `design-system/index.html:${item.line}`));
+duplicateIds.forEach(item => finding('high', 'mechanical', `Duplicate id "${item.value}" can break labels, focus targets, and route selection.`, `website/index.html:${item.line}`));
 
 const idSet = new Set(ids.map(item => item.value));
 hrefs.filter(link => link.value.startsWith('#') && link.value.length > 1).forEach(link => {
     const target = link.value.slice(1);
-    if (!idSet.has(target) && !target.startsWith('spec_')) finding('high', 'mechanical', `Hash link "${link.value}" has no static target.`, `design-system/index.html:${link.line}`);
+    if (!idSet.has(target) && !target.startsWith('spec_')) finding('high', 'mechanical', `Hash link "${link.value}" has no static target.`, `website/index.html:${link.line}`);
 });
 
-hrefs.filter(link => link.value === '#' || link.value.trim() === '').forEach(link => finding('medium', 'interaction', 'Empty link target creates a dead or confusing interaction.', `design-system/index.html:${link.line}`));
+hrefs.filter(link => link.value === '#' || link.value.trim() === '').forEach(link => finding('medium', 'interaction', 'Empty link target creates a dead or confusing interaction.', `website/index.html:${link.line}`));
 
 [...index.matchAll(/<img\b([^>]*)>/gi)].forEach(match => {
-    if (!/\balt=["']/i.test(match[1])) finding('high', 'accessibility', 'Image is missing an alt attribute.', `design-system/index.html:${lineOf(index, match.index)}`);
+    if (!/\balt=["']/i.test(match[1])) finding('high', 'accessibility', 'Image is missing an alt attribute.', `website/index.html:${lineOf(index, match.index)}`);
 });
 
 [...index.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/gi)].forEach(match => {
     const attrs = match[1];
     const content = match[2].replace(/<[^>]+>/g, '').replace(/&[^;]+;/g, '').trim();
     if (!content && !/\baria-label=["'][^"']+/i.test(attrs) && !/\btitle=["'][^"']+/i.test(attrs)) {
-        finding('high', 'accessibility', 'Icon-only button has no accessible name.', `design-system/index.html:${lineOf(index, match.index)}`);
+        finding('high', 'accessibility', 'Icon-only button has no accessible name.', `website/index.html:${lineOf(index, match.index)}`);
     }
 });
 
 [...index.matchAll(/<a\b([^>]*)>/gi)].forEach(match => {
     const attrs = match[1];
-    if (/target=["']_blank["']/i.test(attrs) && !/rel=["'][^"']*noopener/i.test(attrs)) finding('high', 'security', 'New-tab link is missing rel="noopener".', `design-system/index.html:${lineOf(index, match.index)}`);
+    if (/target=["']_blank["']/i.test(attrs) && !/rel=["'][^"']*noopener/i.test(attrs)) finding('high', 'security', 'New-tab link is missing rel="noopener".', `website/index.html:${lineOf(index, match.index)}`);
 });
 
 const headingJumpIndex = headings.findIndex((heading, index) => index > 0 && heading.level - headings[index - 1].level > 1);
 if (headingJumpIndex > -1) {
     const previous = headings[headingJumpIndex - 1];
     const current = headings[headingJumpIndex];
-    finding('medium', 'accessibility', `Heading hierarchy jumps from h${previous.level} "${previous.text}" to h${current.level} "${current.text}".`, `design-system/index.html:${current.line}`);
+    finding('medium', 'accessibility', `Heading hierarchy jumps from h${previous.level} "${previous.text}" to h${current.level} "${current.text}".`, `website/index.html:${current.line}`);
 }
-if (!/<main\b/i.test(index)) finding('high', 'accessibility', 'Documentation pages need a main landmark.', 'design-system/index.html');
-if (!/prefers-reduced-motion/i.test(style)) finding('high', 'motion', 'Motion styles have no prefers-reduced-motion override.', 'design-system/css/main.css');
-if (!/:focus-visible/i.test(style)) finding('high', 'accessibility', 'Keyboard focus styles are not declared with :focus-visible.', 'design-system/css/main.css');
-if (!/button:focus-visible/i.test(style)) finding('high', 'accessibility', 'Native documentation buttons need a visible keyboard focus treatment.', 'design-system/css/main.css');
+if (!/<main\b/i.test(index)) finding('high', 'accessibility', 'Documentation pages need a main landmark.', 'website/index.html');
+if (!/prefers-reduced-motion/i.test(style)) finding('high', 'motion', 'Motion styles have no prefers-reduced-motion override.', 'website/css/main.css');
+if (!/:focus-visible/i.test(style)) finding('high', 'accessibility', 'Keyboard focus styles are not declared with :focus-visible.', 'website/css/main.css');
+if (!/button:focus-visible/i.test(style)) finding('high', 'accessibility', 'Native documentation buttons need a visible keyboard focus treatment.', 'website/css/main.css');
 if (!/data-theme/.test(index) || !/data-theme/.test(style)) finding('medium', 'visual', 'Theme state is not represented consistently in markup and CSS.', 'index.html / main.css');
 
 const rawHex = [...style.matchAll(/#[0-9a-f]{3,8}\b/gi)].filter(match => !/#[0-9a-f]{3,8}\b/i.test(match[0]) || !match[0].startsWith('#0')).length;
-if (rawHex > 12) finding('medium', 'visual', `${rawHex} raw colour literals remain in documentation CSS; token usage should be reviewable.`, 'design-system/css/main.css');
+if (rawHex > 12) finding('medium', 'visual', `${rawHex} raw colour literals remain in documentation CSS; token usage should be reviewable.`, 'website/css/main.css');
 
 const componentBlock = documentation.match(/const components = \[([\s\S]*?)\n  \];/);
 const specBlock = documentation.match(/const specs = \[([\s\S]*?)\n  \];/);
@@ -76,8 +76,8 @@ specEntries.filter(entry => entry.tag !== '—' && !registeredTags.has(entry.tag
 childEntries.filter(entry => specTags.has(entry.tag)).forEach(entry => finding('high', 'documentation', `Child component "${entry.name}" must be documented inside its parent, not as a standalone spec.`, `tag: ${entry.tag}`));
 childEntries.filter(entry => !componentEntries.some(candidate => candidate.tag === entry.parent)).forEach(entry => finding('high', 'mechanical', `Child component "${entry.name}" references missing parent <${entry.parent}>.`, `tag: ${entry.tag}`));
 const demoTags = new Set([...documentation.matchAll(/demo:\s*['"`]([\s\S]*?)['"`]/g)].flatMap(match => [...match[1].matchAll(/<([a-z][\w-]*-[\w-]+)(?:\s|>)/gi)].map(tag => tag[1])));
-[...demoTags].filter(tag => !registeredTags.has(tag)).forEach(tag => finding('high', 'mechanical', `Demo markup contains unregistered custom element <${tag}>.`, 'design-system/js/design-system.js'));
-if (standaloneEntries.length && specEntries.length < standaloneEntries.length) finding('high', 'documentation', `Standalone spec coverage is ${specEntries.length}/${standaloneEntries.length}.`, 'design-system/js/design-system.js');
+[...demoTags].filter(tag => !registeredTags.has(tag)).forEach(tag => finding('high', 'mechanical', `Demo markup contains unregistered custom element <${tag}>.`, 'website/js/design-system.js'));
+if (standaloneEntries.length && specEntries.length < standaloneEntries.length) finding('high', 'documentation', `Standalone spec coverage is ${specEntries.length}/${standaloneEntries.length}.`, 'website/js/design-system.js');
 
 const specFeatures = [
     ['design intent', 'intent'],
@@ -87,7 +87,7 @@ const specFeatures = [
     ['markup', 'spec-code-block'],
 ];
 const featureChecks = specFeatures.map(([label, token]) => ({ label, present: documentation.includes(token) }));
-featureChecks.filter(check => !check.present).forEach(check => finding('high', 'documentation', `All specs should expose a ${check.label} section.`, 'design-system/js/design-system.js'));
+featureChecks.filter(check => !check.present).forEach(check => finding('high', 'documentation', `All specs should expose a ${check.label} section.`, 'website/js/design-system.js'));
 
 const report = {
     generatedAt: new Date().toISOString(),
@@ -106,12 +106,12 @@ const report = {
     },
     findings,
     evidence: {
-        sourceFiles: ['design-system/index.html', 'design-system/css/main.css', 'design-system/js/design-system.js', 'components/components.js'],
+        sourceFiles: ['website/index.html', 'website/css/main.css', 'website/js/design-system.js', 'components/components.js'],
         method: 'Static source inspection with line-level evidence. Pair with browser screenshots and keyboard interaction checks for visual and motion sign-off.',
     },
 };
 
-const outputPath = path.join(root, 'design-system/evidence/verification/audit-latest.json');
+const outputPath = path.join(root, 'website/evidence/verification/audit-latest.json');
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));

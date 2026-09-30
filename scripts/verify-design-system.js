@@ -9,18 +9,18 @@ const hash = content => crypto.createHash('sha256').update(content).digest('hex'
 const failures = [];
 const check = (condition, message) => { if (!condition) failures.push(message); };
 
-const tokensText = read('design-system/tokens/tokens.json');
+const tokensText = read('website/tokens/tokens.json');
 const tokens = JSON.parse(tokensText);
-const css = read('design-system/tokens/tokens.css');
-const runtime = read('design-system/js/tokens-runtime.js');
-const components = read('design-system/js/components.js');
+const css = read('website/tokens/tokens.css');
+const runtime = read('website/js/tokens-runtime.js');
+const components = read('website/js/components.js');
 const sourceComponents = read('components/components.js');
-const docsRuntime = read('design-system/js/docs-runtime.js');
+const docsRuntime = read('website/js/docs-runtime.js');
 const sharedRuntime = read('main_UI.js');
-const index = read('design-system/index.html');
-const style = read('design-system/css/main.css');
-const documentation = read('design-system/js/design-system.js');
-const evidence = JSON.parse(read('design-system/evidence/case-study.json'));
+const index = read('website/index.html');
+const style = read('website/css/main.css');
+const documentation = read('website/js/design-system.js');
+const evidence = JSON.parse(read('website/evidence/case-study.json'));
 const tokenHash = hash(tokensText);
 
 check(/href="tokens\/tokens\.css(?:\?[^\"]*)?"/.test(index), 'index.html must load generated tokens/tokens.css.');
@@ -83,8 +83,8 @@ const report = {
     }, {})
 };
 
-fs.mkdirSync(path.join(root, 'design-system/evidence/verification'), { recursive: true });
-fs.writeFileSync(path.join(root, 'design-system/evidence/verification/latest.json'), `${JSON.stringify(report, null, 2)}\n`);
+fs.mkdirSync(path.join(root, 'website/evidence/verification'), { recursive: true });
+fs.writeFileSync(path.join(root, 'website/evidence/verification/latest.json'), `${JSON.stringify(report, null, 2)}\n`);
 if (failures.length) {
     console.error(failures.map(message => `FAIL: ${message}`).join('\n'));
     process.exit(1);

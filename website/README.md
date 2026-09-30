@@ -33,7 +33,7 @@ Just open `index.html` in a browser, or serve the folder:
 ```bash
 # from the repo root
 python -m http.server 8080
-# then open http://localhost:8080/design-system/
+# then open http://localhost:8080/website/
 ```
 
 ## Build and Verify

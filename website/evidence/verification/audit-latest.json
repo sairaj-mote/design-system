@@ -24,9 +24,9 @@
   "findings": [],
   "evidence": {
     "sourceFiles": [
-      "design-system/index.html",
-      "design-system/css/main.css",
-      "design-system/js/design-system.js",
+      "website/index.html",
+      "website/css/main.css",
+      "website/js/design-system.js",
       "components/components.js"
     ],
     "method": "Static source inspection with line-level evidence. Pair with browser screenshots and keyboard interaction checks for visual and motion sign-off."

@@ -3,8 +3,8 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const read = relativePath => fs.readFileSync(path.join(root, relativePath), 'utf8');
-const documentation = read('design-system/js/design-system.js');
-const index = read('design-system/index.html');
+const documentation = read('website/js/design-system.js');
+const index = read('website/index.html');
 const componentSource = read('components/components.js');
 const utilitySource = read('main_UI.js');
 const failures = [];
@@ -97,8 +97,8 @@ requiredSpecSections.forEach(([label, token]) => check(specHas(token), `Spec ren
 check(demos >= standaloneComponents.length, `Only ${demos} spec demos were found for ${standaloneComponents.length} standalone components.`);
 check(specHas('specs.forEach(enrichSpec)'), 'Specs are not normalized through the rich coverage layer.');
 check(specHas('copySpecMarkup'), 'Copyable markup behavior is not covered by the spec renderer.');
-check(/prefers-reduced-motion/i.test(componentSource) || /prefers-reduced-motion/i.test(read('design-system/css/main.css')), 'No reduced-motion contract is present in component or documentation styles.');
-check(/:focus-visible/.test(componentSource) && /:focus-visible/.test(read('design-system/css/main.css')), 'Focus-visible contracts are not present in both component and documentation styles.');
+check(/prefers-reduced-motion/i.test(componentSource) || /prefers-reduced-motion/i.test(read('website/css/main.css')), 'No reduced-motion contract is present in component or documentation styles.');
+check(/:focus-visible/.test(componentSource) && /:focus-visible/.test(read('website/css/main.css')), 'Focus-visible contracts are not present in both component and documentation styles.');
 check(/aria-live/.test(componentSource), 'Live-region behavior is not present in component source.');
 check(/popupopened|popupclosed/.test(componentSource), 'Popup lifecycle events are not present in component source.');
 check(/navigator\.clipboard|clipboard\.writeText/.test(source), 'Clipboard outcome is not represented in the source or demos.');
@@ -177,7 +177,7 @@ const report = {
     ],
 };
 
-const outputPath = path.join(root, 'design-system/evidence/verification/interaction-coverage.json');
+const outputPath = path.join(root, 'website/evidence/verification/interaction-coverage.json');
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));
