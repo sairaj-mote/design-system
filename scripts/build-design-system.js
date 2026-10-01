@@ -78,6 +78,16 @@ body[data-theme="dark"] {
   --warning-rgb: ${rgb(tokens.color.semantic.warning.dark)};
   --on-accent: #0b3a3c;
 }
+
+body.is-portfolio {
+  --accent-color: #24745a;
+  --theme-accent-color: #24745a;
+}
+
+body.is-portfolio[data-theme="dark"] {
+  --accent-color: #96d8b4;
+  --theme-accent-color: #96d8b4;
+}
 `;
 
 const runtime = {

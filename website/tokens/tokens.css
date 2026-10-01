@@ -106,3 +106,13 @@ body[data-theme="dark"] {
   --warning-rgb: 255, 213, 5;
   --on-accent: #0b3a3c;
 }
+
+body.is-portfolio {
+  --accent-color: #24745a;
+  --theme-accent-color: #24745a;
+}
+
+body.is-portfolio[data-theme="dark"] {
+  --accent-color: #96d8b4;
+  --theme-accent-color: #96d8b4;
+}
