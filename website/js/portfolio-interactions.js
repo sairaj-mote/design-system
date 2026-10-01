@@ -108,5 +108,7 @@
       }), { root, rootMargin: '-15% 0px -70% 0px' });
       tracked.forEach(section => spy.observe(section));
     }
+
+    const revealNodes = [...document.querySelectorAll('[data-reveal-index]')]; if (revealNodes.length) { if (reducedMotion || !('IntersectionObserver' in window)) { revealNodes.forEach(el => el.classList.add('is-visible')); } else { const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.setProperty('--_reveal-index', entry.target.dataset.revealIndex); entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } }), { root, threshold: 0.1 }); revealNodes.forEach(el => revealObserver.observe(el)); } }
   });
 })();
