@@ -1,8 +1,6 @@
 /* Personal portfolio visual system: quiet surfaces, confident type, precise motion. */
 :root { color-scheme: light; --portfolio-ease: cubic-bezier(.2,.7,.2,1); }
 body.is-portfolio {
-  --accent-color: #236b53;
-  --theme-accent-color: #236b53;
   --portfolio-ink: #17241f;
   --portfolio-muted: #64736b;
   --portfolio-line: rgba(27, 48, 38, .12);
@@ -12,8 +10,6 @@ body.is-portfolio {
   color: var(--portfolio-ink);
 }
 body.is-portfolio[data-theme="dark"] {
-  --accent-color: #9ce1c0;
-  --theme-accent-color: #9ce1c0;
   --portfolio-ink: #edf5ef;
   --portfolio-muted: #a7b8ad;
   --portfolio-line: rgba(218, 239, 224, .14);
@@ -43,7 +39,7 @@ body.is-portfolio .portfolio-nav a::after {
 }
 body.is-portfolio .portfolio-nav a:hover::after,
 body.is-portfolio .portfolio-nav a:focus-visible::after,
-body.is-portfolio .portfolio-nav a[aria-current="location"]::after { transform: scaleX(1); }
+body.is-portfolio .portfolio-nav a[aria-current="page"]::after { transform: scaleX(1); }
 body.is-portfolio .right { scroll-padding-top: 2rem; }
 body.is-portfolio .portfolio-hero {
   min-height: min(46rem, calc(100svh - 5rem));

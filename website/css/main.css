@@ -410,8 +410,8 @@ strong.important {
   padding: 0.75rem 1rem;
   margin: 0.75rem 0;
   border-radius: 0.3rem;
-  color: rgba(0, 0, 0, 0.85);
-  background-color: khaki;
+  color: rgba(var(--text-color), 0.9);
+  background-color: rgba(var(--warning-rgb), 0.18);
 }
 
 .table {
@@ -714,17 +714,17 @@ ol li {
 
 .badge--good {
   background: rgba(var(--green-rgb), 0.15);
-  color: #0f7a45;
+  color: var(--green);
 }
 
 .badge--warn {
   background: rgba(255, 172, 46, 0.18);
-  color: #8f580b;
+  color: var(--color-secondary-800);
 }
 
 .badge--bad {
   background: rgba(var(--danger-rgb), 0.15);
-  color: #c92f2f;
+  color: rgb(var(--danger-color));
 }
 
 body[data-theme=dark] .badge--good {
@@ -1862,6 +1862,10 @@ footer {
   .right {
     padding: 1rem;
   }
+
+  body.is-portfolio #side_nav_button {
+    display: flex;
+  }
 }
 
 @media screen and (min-width: 640px) {
@@ -1920,8 +1924,6 @@ footer {
 
 /* ---- Personal portfolio home ---- */
 body.is-portfolio {
-  --accent-color: #245c4d;
-  --theme-accent-color: #245c4d;
   --text-color: 29, 37, 33;
   --theme-text-rgb: 29, 37, 33;
   --background-color: 247, 247, 243;
@@ -1932,8 +1934,6 @@ body.is-portfolio {
 }
 
 body.is-portfolio[data-theme="dark"] {
-  --accent-color: #8ad0b1;
-  --theme-accent-color: #8ad0b1;
   --text-color: 230, 235, 230;
   --theme-text-rgb: 230, 235, 230;
   --background-color: 19, 25, 22;
@@ -2624,6 +2624,7 @@ body[data-theme="dark"] .project-card__art {
 .capability-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
   border-top: 1px solid rgba(var(--text-color), 0.12);
 }
 
@@ -2631,10 +2632,6 @@ body[data-theme="dark"] .project-card__art {
   position: relative;
   padding: 1.35rem 2rem 1.5rem 0;
   border-bottom: 1px solid rgba(var(--text-color), 0.12);
-}
-
-.capability-list > div:nth-child(odd) {
-  margin-right: 2rem;
 }
 
 .capability-list > div > span {
@@ -2912,10 +2909,6 @@ body[data-theme="dark"] .project-card__art {
 
   .capability-list {
     grid-template-columns: 1fr;
-  }
-
-  .capability-list > div:nth-child(odd) {
-    margin-right: 0;
   }
 
   .capability-list > div {

@@ -45,7 +45,7 @@
         const empty = document.createElement('p'); empty.className = 'command-palette__empty'; empty.textContent = 'No matching pages. Try a component or topic.'; results.append(empty); return;
       }
       matches.forEach(command => {
-        const link = document.createElement('a'); link.className = 'command-palette__item'; link.href = command.href; link.setAttribute('role', 'option');
+        const link = document.createElement('a'); link.className = 'command-palette__item'; link.href = command.href; link.setAttribute('role', 'listitem');
         const title = document.createElement('span'); title.textContent = command.label;
         const detail = document.createElement('small'); detail.textContent = command.detail;
         link.append(title, detail); link.addEventListener('click', () => dialog.close()); results.append(link);
@@ -104,7 +104,7 @@
     const tracked = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
     if ('IntersectionObserver' in window && root && tracked.length) {
       const spy = new IntersectionObserver(entries => entries.forEach(entry => {
-        if (entry.isIntersecting) navLinks.forEach(link => link.toggleAttribute('aria-current', link.getAttribute('href') === `#${entry.target.id}`));
+        if (entry.isIntersecting) navLinks.forEach(link => { if (link.getAttribute('href') === `#${entry.target.id}`) { link.setAttribute('aria-current', 'page'); } else { link.removeAttribute('aria-current'); } });
       }), { root, rootMargin: '-15% 0px -70% 0px' });
       tracked.forEach(section => spy.observe(section));
     }
