@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T22:29:42.865Z",
+  "generatedAt": "2026-10-01T09:37:46.000Z",
   "status": "reviewed",
   "reviewerLenses": [
     "mechanical",
@@ -11,17 +11,24 @@
     "documentation"
   ],
   "metrics": {
-    "staticIds": 63,
-    "staticHashLinks": 6,
-    "headingCount": 71,
+    "staticIds": 76,
+    "staticHashLinks": 20,
+    "headingCount": 91,
     "components": 26,
     "standaloneComponents": 21,
     "childComponents": 5,
     "registeredComponents": 26,
     "specs": 21,
-    "rawColourLiterals": 5
+    "rawColourLiterals": 60
   },
-  "findings": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "lens": "visual",
+      "message": "60 raw colour literals remain in documentation CSS; token usage should be reviewable.",
+      "evidence": "website/css/main.css"
+    }
+  ],
   "evidence": {
     "sourceFiles": [
       "website/index.html",
